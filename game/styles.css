@@ -1,0 +1,130 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: 'Press Start 2P', cursive;
+}
+
+#gameArea {
+    position: relative;
+    background-color: #8ecae6;
+    border: 2px solid #023047;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    width: 600px;
+    height: 800px;
+    max-height: 100vh;
+}
+
+@media (max-width: 767px) {
+    #gameArea {
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+#character {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    background-image: url('../assets/kitty.png'); /* Imagen del personaje */
+    background-size: cover;
+    transform: translateX(-50%);
+    transition: left 0.1s;
+}
+
+.food {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+}
+
+.good {
+    background-image: url('../assets/kitty.png'); /* Imagen de buena comida */
+}
+
+.bad {
+    background-image: url('../assets/mrd.png'); /* Imagen de mala comida */
+}
+
+#score, #highScore, #missedGood {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    color: #023047;
+}
+
+#highScore {
+    top: 40px;
+}
+
+#missedGood {
+    top: 70px;
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffb703;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* Para que esté encima de los cosos, y no se superponga */
+}
+
+.gameOverContent p {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+#gameOver button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #ffb703;
+    color: #023047;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#gameOver button:hover {
+    background-color: #fb8500;
+}
+
+#backToMenuButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #ffb703;
+    color: #023047;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#backToMenuButton:hover {
+    background-color: #fb8500;
+}

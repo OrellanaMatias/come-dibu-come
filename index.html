@@ -2,11 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jueguito pedorro</title>
+    <title>Comela Dibu Comela - Inicio</title>
+    <link rel="stylesheet" href="game/styles.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
+    <div id="startScreen">
+        <img src="assets/mel.jpg" alt="Logo" id="logo">
+        <h1>Comela Dibu Comela</h1>
+        <button onclick="startGame()">Jugar</button>
+        <button onclick="showInstructions()">Instrucciones</button>
+        <button id="infoButton" onclick="showInfo()">i</button>
+    </div>
+
+    <div id="instructionsPopup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeInstructions()">&times;</span>
+            <h2>Instrucciones del Juego :p</h2>
+            <p>1. Usa las teclas de flecha para mover el personaje.</p>
+            <p>2. Tengo sueñito</p>
+            <p>3. "Eso" es el limite d cosos q podes dejar caer</p>
+        </div>
+    </div>
+
+    <div id="infoPopup" class="popup" style="display: none;">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeInfo()">&times;</span>
+            <h2>Acerca del Juego</h2>
+            <p>El juego fue desarrollado pensando en que la cobra se coma todas las hamburguesas, pero bno, salió esto</p>
+            <p>Male volve xfa</p>
+            <ul>
+                <li><strong>Equipo de Diseño:</strong></li>
+                <ul>
+                    <li>Matias</li>
+                    <li>Orellana</li>
+                </ul>
+                <li><strong>Equipo de Testing:</strong></li>
+                <ul>
+                    <li>Emanuel</li>
+                    <li>Yo :p</li>
+                </ul>
+                <li><strong>Equipo de Programación:</strong></li>
+                <ul>
+                    <li>Oreollana</li>
+                    <li>Oreo</li>
+                </ul>
+                <li><strong>Docente:</strong></li>
+                <ul>
+                    <li>Orellana Matias</li>
+                </ul>
+            </ul>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
 </body>
 </html>

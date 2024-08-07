@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comela Dibu Comela</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="gameArea">
+        <div id="character"></div>
+        <div id="score">Puntuación: 0</div>
+        <div id="highScore">Puntuación más alta: 0</div>
+        <div id="missedGood">Eso: 0</div>
+        <div id="gameOver" style="display: none;">
+            <div class="gameOverContent">
+                <p>Anda a jugar Pou</p>
+                <button onclick="restartGame()">Jugar de nuevo</button>
+            </div>
+        </div>
+        <button id="backToMenuButton" onclick="backToMenu()">Volver al menú</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
