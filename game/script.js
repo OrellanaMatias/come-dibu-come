@@ -123,6 +123,8 @@ function dropFood() {
     const food = createFood();
     let foodPositionY = 0;
     let foodSpeed = foodDropSpeed;
+    let foodRotation = 0; // Ángulo de rotación inicial
+    const foodRotationSpeed = 360 / 1000; // Velocidad de rotación en grados por milisegundo
     let foodInterval = setInterval(() => {
         if (gameOver) {
             clearInterval(foodInterval);
@@ -130,7 +132,9 @@ function dropFood() {
         }
 
         foodPositionY += foodSpeed;
+        foodRotation += foodRotationSpeed * 20; // Actualizar el ángulo de rotación
         food.style.top = foodPositionY + 'px';
+        food.style.transform = `rotate(${foodRotation}deg)`; // Aplicar la rotación
 
         // Comprobar si la comida es atrapada por el personaje
         const foodRect = food.getBoundingClientRect();
