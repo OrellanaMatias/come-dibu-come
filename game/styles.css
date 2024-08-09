@@ -36,8 +36,8 @@ body {
     position: absolute;
     bottom: 10%;
     left: 50%;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     background-image: url('../assets/kitty.png'); /* Imagen del personaje */
     background-size: cover;
     transform: translateX(-50%);
