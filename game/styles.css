@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'minecraft';
+    src: url('/assets/Minecraft.ttf') format('truetype');
+}
 /* Estilos generales */
 body {
     margin: 0;
@@ -7,18 +11,25 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
-    font-family: 'Press Start 2P', cursive;
+    background-color: #5a5a5a;
+    font-family: minecraft;
+}
+.cosito{
+    width: 100vw;
+    display: flex;
+    justify-content: center;}
+.cosito img{
+    transform: rotate(90deg);
+    width: 400px;
+
 }
 
 #gameArea {
     position: relative;
-    background-color: #8ecae6;
-    border: 2px solid #023047;
+    background-color: #D3ECAC;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
     overflow: hidden;
     width: 600px;
     height: 800px;
@@ -42,6 +53,7 @@ body {
     background-size: cover;
     transform: translateX(-50%);
     transition: left 0.1s;
+    z-index: 1000;
 }
 
 .food {
@@ -52,7 +64,8 @@ body {
 }
 
 .good {
-    background-image: url('../assets/kitty.png'); /* Imagen de buena comida */
+    background-image: url('../assets/copa.webp'); /* Imagen de buena comida */
+    height: 50px;
 }
 
 .bad {
@@ -64,7 +77,9 @@ body {
     top: 10px;
     left: 10px;
     font-size: 16px;
-    color: #023047;
+    color: #ffffff;
+    z-index: 1000;
+
 }
 
 #highScore {
@@ -99,16 +114,16 @@ body {
 #gameOver button {
     padding: 10px 20px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
-    background-color: #ffb703;
-    color: #023047;
+    font-family: minecraft;
+    background-color: transparent;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 #gameOver button:hover {
-    background-color: #fb8500;
+    background-color: #795f44;
 }
 
 #backToMenuButton {
@@ -117,14 +132,20 @@ body {
     right: 10px;
     padding: 10px 20px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
-    background-color: #ffb703;
-    color: #023047;
+    font-family: minecraft;
+    background-color: transparent;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
 }
 
 #backToMenuButton:hover {
-    background-color: #fb8500;
+    background-color: #795f44;
+}
+button:hover {
+    background-color: #795f44;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
 }
