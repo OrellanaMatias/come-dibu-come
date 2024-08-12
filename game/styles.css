@@ -8,7 +8,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #f0f0f0;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Press Start 2P';
 }
 
 #gameArea {
@@ -99,7 +99,7 @@ body {
 #gameOver button {
     padding: 10px 20px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Press Start 2P';
     background-color: #ffb703;
     color: #023047;
     border: none;
@@ -117,7 +117,7 @@ body {
     right: 10px;
     padding: 10px 20px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Press Start 2P';
     background-color: #ffb703;
     color: #023047;
     border: none;
