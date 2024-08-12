@@ -1,3 +1,14 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #8ecae6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 #startScreen {
     display: flex;
     flex-direction: column;
@@ -18,14 +29,12 @@ h1 {
     margin-right: 50px;
     margin-bottom: 20px;
     color: #023047;
-    font-family: 'Press Start 2P', cursive;
 }
 
 button {
     padding: 10px 20px;
     margin: 10px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
     background-color: #ffb703;
     color: #023047;
     border: none;
@@ -90,7 +99,6 @@ button:hover {
     right: 60px;
     padding: 10px 15px;
     font-size: 16px;
-    font-family: 'Press Start 2P', cursive;
     background-color: #ffb703;
     color: #023047;
     border: none;
