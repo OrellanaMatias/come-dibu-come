@@ -1,16 +1,23 @@
-
-
 @font-face {
     font-family: 'minecraft';
     src: url('assets/Minecraft.ttf') format('truetype');
 }
 
-html, body{
+html{
     margin: 0px;
     padding: 0px;
     font-family: minecraft;
     background-color: #5a5a5a;
 
+body {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #8ecae6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 #startScreen {
@@ -40,7 +47,6 @@ h1 {
     font-size: 2.5rem;
     letter-spacing: 3px;
     box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
-
 }
 
 button {

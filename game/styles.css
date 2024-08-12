@@ -14,14 +14,16 @@ body {
     background-color: #5a5a5a;
     font-family: minecraft;
 }
+
 .cosito{
     width: 100vw;
     display: flex;
-    justify-content: center;}
+    justify-content: center;
+}
+
 .cosito img{
     transform: rotate(90deg);
     width: 400px;
-
 }
 
 #gameArea {
