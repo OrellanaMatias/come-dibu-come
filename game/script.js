@@ -216,7 +216,7 @@ function endGame() {
 
 // Pausar el juego cuando no esta visible
 document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
+    if (document.hidden) {                   
         clearInterval(foodIntervalId);
         clearInterval(difficultyIntervalId);
         cancelAnimationFrame(animationFrameId);
