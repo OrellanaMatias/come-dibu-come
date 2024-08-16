@@ -65,13 +65,26 @@ body {
     background-size: cover;
 }
 
-.good {
+.good1 {
     background-image: url('../assets/copa.webp'); /* Imagen de buena comida */
     height: 50px;
 }
 
+.good2 {
+    background-image: url('../assets/worldCup.png');
+    height: 50px;
+    width: 50px;
+}
+
+.good3 {
+    background-image: url('../assets/mano.webp');
+    height: 50px;
+    width: 50px;
+}
 .bad {
-    background-image: url('../assets/obstacle.webp'); /* Imagen de mala comida */
+    background-image: url('../assets/francia.webp'); /* Imagen de mala comida */
+    height: 50px;
+    width: 50px;
 }
 
 #score, #highScore, #missedGood {
