@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'minecraft';
-    src: url('/assets/Minecraft.ttf') format('truetype');
+    src: url('../assets/Minecraft.ttf') format('truetype');
 }
 /* Estilos generales */
 body {
@@ -51,7 +51,7 @@ body {
     left: 50%;
     width: 150px;
     height: 150px;
-    background-image: url('../assets/dibu.webp'); /* Imagen del personaje */
+    background-image: url('../assets/dibu.png'); /* Imagen del personaje */
     background-size: cover;
     transform: translateX(-50%);
     transition: left 0.1s;
@@ -92,7 +92,7 @@ body {
     top: 10px;
     left: 10px;
     font-size: 16px;
-    color: #ffffff;
+    color: #000000;
     z-index: 1000;
 
 }

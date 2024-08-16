@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'minecraft';
-    src: url('assets/Minecraft.ttf') format('truetype');
+    src: url('../assets/Minecraft.ttf') format('truetype');
 }
 
 html{
@@ -8,6 +8,7 @@ html{
     padding: 0px;
     font-family: minecraft;
     background-color: #5a5a5a;
+}
 
 body {
     font-family: 'Press Start 2P', cursive;
