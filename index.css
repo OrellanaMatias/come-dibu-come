@@ -6,11 +6,10 @@
 html{
     margin: 0px;
     padding: 0px;
-    font-family: minecraft;
     background-color: #5a5a5a;
-
+}
 body {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'VT323', monospace;
     background-color: #8ecae6;
     margin: 0;
     padding: 0;
@@ -36,40 +35,39 @@ body {
     height: 150px;
     margin-bottom: 20px;
 }
-
+.atrapado{
+    background-color: #795f44;
+    padding: 0px 10px;
+    height: fit-content;
+}
 h1 {
     text-align: center;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-bottom: 80px;
     color: #ffffff;
-    background-color: #795f44;
     font-size: 2.5rem;
     letter-spacing: 3px;
-    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
+    font-family: 'VT323', monospace;
+
 }
 
 button {
     padding: 10px 20px;
-    margin: 10px;
+    margin: 5px 0px;    
     font-size: 25px;
     background-color: transparent;
     color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-family: minecraft;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'VT323', monospace;
+
 }
 
 button:hover {
-    background-color: #795f44;
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
 }
 
 #infoButton:hover {
-    background-color: #795f44;
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
 }
@@ -135,22 +133,32 @@ button:hover {
     cursor: pointer;
 }
 @media screen and (max-width: 767px) {
-
     h1 {
         text-align: center;
-        margin-left: 50px;
-        margin-right: 50px;
-        margin-bottom: 65px;
         color: #ffffff;
-        background-color: #795f44;
-        font-size: 2rem;
+        font-size: 1.5rem;
         letter-spacing: 3px;
+        font-family: 'VT323', monospace;
+
+    }
+    
+    button {
+        padding: 10px 20px;
+        margin: 10px 0px;    
+        font-size: 25px;
+        background-color: transparent;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        font-family: 'VT323', monospace;
+
     }
 }
 
 #infoButton:hover {
     background-color: #fb8500;
-    font-family: minecraft;
 
 }
 

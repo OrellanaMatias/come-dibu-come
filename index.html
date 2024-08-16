@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comela Dibu Comela - Inicio</title>
-    <link rel="stylesheet" href="game/styles.css">
     <link rel="stylesheet" href="index.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="startScreen">
-        <h1>Come Dibu Come</h1>
-        <button onclick="startGame()">Jugar</button>
-        <button onclick="showInstructions()">Instrucciones</button>
-        <button id="infoButton" onclick="showInfo()">i</button>
+        <div class="atrapado"><h1>Come Dibu Come</h1></div>
+        <button class="btn" onclick="startGame()">Jugar</button>
+        <button class="btn" onclick="showInstructions()">Instrucciones</button>
+        <button class="btn" id="infoButton" onclick="showInfo()">i</button>
     </div>
 
     <div id="instructionsPopup" class="popup" style="display: none;">

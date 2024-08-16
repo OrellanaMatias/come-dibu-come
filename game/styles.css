@@ -12,7 +12,7 @@ body {
     align-items: center;
     height: 100vh;
     background-color: #5a5a5a;
-    font-family: minecraft;
+    font-family: 'VT323', monospace;
 }
 
 .cosito{
@@ -116,7 +116,7 @@ body {
 #gameOver button {
     padding: 10px 20px;
     font-size: 16px;
-    font-family: minecraft;
+    font-family: 'VT323', monospace;
     background-color: transparent;
     color: #ffffff;
     border: none;
@@ -134,7 +134,7 @@ body {
     right: 10px;
     padding: 10px 20px;
     font-size: 16px;
-    font-family: minecraft;
+    font-family: 'VT323', monospace;
     background-color: transparent;
     color: #ffffff;
     border: none;
