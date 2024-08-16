@@ -51,7 +51,7 @@ body {
     left: 50%;
     width: 150px;
     height: 150px;
-    background-image: url('../assets/kitty.png'); /* Imagen del personaje */
+    background-image: url('../assets/dibu.png'); /* Imagen del personaje */
     background-size: cover;
     transform: translateX(-50%);
     transition: left 0.1s;
