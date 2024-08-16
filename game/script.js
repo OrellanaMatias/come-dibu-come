@@ -100,13 +100,14 @@ function updateCharacterPosition() {
 
 updateCharacterPosition();
 
+
 // crear de comida
 function createFood() {
     const food = document.createElement('div');
     food.classList.add('food');
 
     if (Math.random() > badFoodProbability) {
-        food.classList.add('good');
+        food.classList.add('good' + Math.floor(Math.random() * 3 + 1));
     } else {
         food.classList.add('bad');
     }
@@ -149,7 +150,7 @@ function dropFood() {
             gameArea.removeChild(food);
             clearInterval(foodInterval);
 
-            if (food.classList.contains('good')) {
+            if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 score += 10;
             } else {
                 score -= 5;
@@ -163,7 +164,7 @@ function dropFood() {
             gameArea.removeChild(food);
             clearInterval(foodInterval);
 
-            if (food.classList.contains('good')) {
+            if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 missedGood++;
                 missedGoodDisplay.textContent = 'Eso: ' + missedGood;
 
@@ -216,7 +217,7 @@ function endGame() {
 
 // Pausar el juego cuando no esta visible
 document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
+    if (document.hidden) {                   
         clearInterval(foodIntervalId);
         clearInterval(difficultyIntervalId);
         cancelAnimationFrame(animationFrameId);
