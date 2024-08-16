@@ -71,7 +71,7 @@ body {
 }
 
 .bad {
-    background-image: url('../assets/mrd.png'); /* Imagen de mala comida */
+    background-image: url('../assets/obstacle.webp'); /* Imagen de mala comida */
 }
 
 #score, #highScore, #missedGood {
