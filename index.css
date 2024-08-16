@@ -1,3 +1,14 @@
+@font-face {
+    font-family: 'minecraft';
+    src: url('assets/Minecraft.ttf') format('truetype');
+}
+
+html{
+    margin: 0px;
+    padding: 0px;
+    font-family: minecraft;
+    background-color: #5a5a5a;
+
 body {
     font-family: 'Press Start 2P', cursive;
     background-color: #8ecae6;
@@ -15,7 +26,9 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #8ecae6;
+    background-image: url(assets/Milan\ Stadium.png);
+    background-position: center;
+    width: 600px;
 }
 
 #logo {
@@ -25,25 +38,40 @@ body {
 }
 
 h1 {
+    text-align: center;
     margin-left: 50px;
     margin-right: 50px;
-    margin-bottom: 20px;
-    color: #023047;
+    margin-bottom: 80px;
+    color: #ffffff;
+    background-color: #795f44;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
 }
 
 button {
     padding: 10px 20px;
     margin: 10px;
-    font-size: 16px;
-    background-color: #ffb703;
-    color: #023047;
+    font-size: 25px;
+    background-color: transparent;
+    color: #ffffff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-family: minecraft;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color: #fb8500;
+    background-color: #795f44;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
+}
+
+#infoButton:hover {
+    background-color: #795f44;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
 }
 
 .popup {
@@ -68,7 +96,7 @@ button:hover {
     width: 80%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: slideDown 0.5s;
-    color: #023047;
+    color: #131313;
     position: relative;
 }
 
@@ -96,18 +124,34 @@ button:hover {
 #infoButton {
     position: absolute;
     top: 10px;
-    right: 60px;
+    right: 30%;    
     padding: 10px 15px;
     font-size: 16px;
-    background-color: #ffb703;
-    color: #023047;
+    background-color: #795f44;
+    color: #ffffff;
     border: none;
-    border-radius: 50%;
+    border-radius: 20%;
+    text-align: center;
     cursor: pointer;
+}
+@media screen and (max-width: 767px) {
+
+    h1 {
+        text-align: center;
+        margin-left: 50px;
+        margin-right: 50px;
+        margin-bottom: 65px;
+        color: #ffffff;
+        background-color: #795f44;
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
 }
 
 #infoButton:hover {
     background-color: #fb8500;
+    font-family: minecraft;
+
 }
 
 #infoPopup .popup-content {
