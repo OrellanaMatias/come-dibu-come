@@ -21,13 +21,14 @@ let difficultyIntervalId;
 let animationFrameId;
 
 // Configuración de dificultad
-const initialFoodDropSpeed = 2; // Velocidad inicial de caída de la comida
+const initialFoodDropSpeed = 1; // Velocidad inicial de caída de la comida
 const maxFoodDropSpeed = 10; // Velocidad máxima de caída de la comida
 const difficultyIncreaseInterval = 5000; // Intervalo para aumentar la dificultad (5 segundos)
 const initialBadFoodProbability = 0.2; // Probabilidad inicial de comida mala
 const badFoodProbabilityIncrease = 0.05; // Incremento de la probabilidad de comida mala
 const maxBadFoodProbability = 0.5; // Probabilidad máxima de comida mala
-const initialFoodGenerationInterval = 2000; // Intervalo inicial de generación de comida
+const initialFoodGenerationInterval = 1400; // Intervalo inicial de generación de comida
+const maxFoodGenerationInterval = 400;
 
 let foodDropSpeed = initialFoodDropSpeed;
 let badFoodProbability = initialBadFoodProbability;
@@ -180,6 +181,9 @@ function dropFood() {
 function increaseDifficulty() {
     if (foodDropSpeed < maxFoodDropSpeed) {
         foodDropSpeed += 0.5;
+    }
+    if (foodGenerationInterval > maxFoodGenerationInterval) {
+        foodGenerationInterval -= 50;
     }
     badFoodProbability = Math.min(badFoodProbability + badFoodProbabilityIncrease, maxBadFoodProbability);
 }

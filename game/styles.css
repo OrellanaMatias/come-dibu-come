@@ -66,18 +66,18 @@ body {
 }
 
 .good1 {
-    background-image: url('../assets/copa.webp'); /* Imagen de buena comida */
+    background-image: url('../assets/copaAmerica.webp'); /* Imagen de buena comida */
     height: 50px;
 }
 
 .good2 {
-    background-image: url('../assets/worldCup.png');
+    background-image: url('../assets/copaMundial.png');
     height: 50px;
     width: 50px;
 }
 
 .good3 {
-    background-image: url('../assets/mano.webp');
+    background-image: url('../assets/guante.webp');
     height: 50px;
     width: 50px;
 }
