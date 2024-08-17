@@ -183,7 +183,7 @@ function dropFood() {
 
             if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 missedGood++;
-                missedGoodDisplay.textContent = 'Eso: ' + missedGood;
+                missedGoodDisplay.textContent = 'Copas perdidas: ' + missedGood;
 
                 if (missedGood >= 8) {
                     endGame();
@@ -212,7 +212,7 @@ function startGame() {
     badFoodProbability = initialBadFoodProbability; // Reiniciar la probabilidad de comida mala
     foodGenerationInterval = initialFoodGenerationInterval; // Reiniciar el intervalo de generación de comida
     scoreDisplay.textContent = 'Puntuación: ' + score;
-    missedGoodDisplay.textContent = 'Eso: ' + missedGood;
+    missedGoodDisplay.textContent = 'Copas perdidas: ' + missedGood;
     gameOverDisplay.style.display = 'none';
 
     foodIntervalId = setInterval(dropFood, foodGenerationInterval);

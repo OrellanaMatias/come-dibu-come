@@ -218,7 +218,7 @@ button:hover {
 
 #scrollContent {
     animation: scrollDown 20s linear infinite;
-    list-style-type: none; /* Elimina los puntos de la lista */
+    list-style-type: none;
     padding: 0;
     margin: 0;
 }
