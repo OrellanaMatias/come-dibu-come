@@ -2,7 +2,7 @@
     font-family: 'minecraft';
     src: url('../assets/Minecraft.ttf') format('truetype');
 }
-/* Estilos generales */
+
 body {
     margin: 0;
     padding: 0;
@@ -51,7 +51,7 @@ body {
     left: 50%;
     width: 140px;
     height: 140px;
-    background-image: url('../assets/dibu.png'); /* Imagen del personaje */
+    background-image: url('../assets/dibu.png');
     background-size: cover;
     transform: translateX(-50%);
     transition: left 0.1s;
@@ -66,7 +66,7 @@ body {
 }
 
 .good1 {
-    background-image: url('../assets/copaAmerica.webp'); /* Imagen de buena comida */
+    background-image: url('../assets/copaAmerica.webp');
     height: 50px;
 }
 
@@ -82,21 +82,21 @@ body {
     width: 50px;
 }
 .bad {
-    background-image: url('../assets/francia.webp'); /* Imagen de mala comida */
+    background-image: url('../assets/francia.webp');
     height: 46px;
     width: 46px;
 }
 
 .gameOverContent {
-    text-align: center; /* Centra el contenido dentro del div */
+    text-align: center;
 }
 
 .centeredGif {
     display: flex;
     height: 100px;
     width: 100px;
-    margin: 0 auto; /* Centra el GIF horizontalmente */
-    margin-top: 10px; /* Espacio opcional encima del GIF */
+    margin: 0 auto;
+    margin-top: 10px;
 }
 
 #score, #highScore, #missedGood {
@@ -127,7 +127,7 @@ body {
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 10; /* Para que esté encima de los cosos, y no se superponga */
+    z-index: 10;
 }
 
 .gameOverContent p {
@@ -166,7 +166,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 1000; /* Asegura que el botón esté por encima de otros elementos */
+    z-index: 1000;
 }
 
 #backToMenuButton:hover {
@@ -175,5 +175,5 @@ body {
 button:hover {
     background-color: #795f44;
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7);
 }

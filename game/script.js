@@ -20,28 +20,24 @@ let foodIntervalId;
 let difficultyIntervalId;
 let animationFrameId;
 
-// Configuración de dificultad
-const initialFoodDropSpeed = 2; // Velocidad inicial de caída de la comida
-const maxFoodDropSpeed = 8; // Velocidad máxima de caída de la comida
-const difficultyIncreaseInterval = 5000; // Intervalo para aumentar la dificultad (5 segundos)
-const initialBadFoodProbability = 0.2; // Probabilidad inicial de comida mala
-const badFoodProbabilityIncrease = 0.05; // Incremento de la probabilidad de comida mala
-const maxBadFoodProbability = 0.5; // Probabilidad máxima de comida mala
-const initialFoodGenerationInterval = 1400; // Intervalo inicial de generación de comida
+const initialFoodDropSpeed = 2;
+const maxFoodDropSpeed = 8;
+const difficultyIncreaseInterval = 5000;
+const initialBadFoodProbability = 0.2;
+const badFoodProbabilityIncrease = 0.05;
+const maxBadFoodProbability = 0.5;
+const initialFoodGenerationInterval = 1400;
 const maxFoodGenerationInterval = 1900;
 
 let foodDropSpeed = initialFoodDropSpeed;
 let badFoodProbability = initialBadFoodProbability;
 let foodGenerationInterval = initialFoodGenerationInterval;
 
-// Cargar la puntuación más alta del almacenamiento local
 let highScore = localStorage.getItem('highScore') || 0;
 highScoreDisplay.textContent = 'Puntuación más alta: ' + highScore;
 
-// ssssss inicial del personaje
 character.style.left = characterPosition + 'px';
 
-// Movimiento del personaje
 document.addEventListener('keydown', (event) => {
     if (gameOver) return;
     if (event.key === 'ArrowLeft') {
@@ -59,7 +55,6 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-// Controles para móviles
 let touchStartX = 0;
 gameArea.addEventListener('touchstart', (event) => {
     if (gameOver) return;
@@ -80,7 +75,6 @@ gameArea.addEventListener('touchend', () => {
     characterSpeed = 0;
 });
 
-// Actualizar la cosa del personaje
 function updateCharacterPosition() {
     if (gameOver) return;
 
@@ -102,7 +96,6 @@ function updateCharacterPosition() {
 updateCharacterPosition();
 
 
-// crear de comida
 function createFood() {
     const food = document.createElement('div');
     food.classList.add('food');
@@ -124,9 +117,9 @@ function dropFood() {
     const food = createFood();
     let foodPositionY = 0;
     let foodSpeed = foodDropSpeed;
-    let foodRotation = 0; // Ángulo de rotación inicial
-    const foodRotationSpeed = 360 / 1000; // Velocidad de rotación en grados por milisegundo
-    const collisionPadding = 10; // Ajuste del tamaño de la colisión
+    let foodRotation = 0;
+    const foodRotationSpeed = 360 / 1000;
+    const collisionPadding = 10;
 
     let foodInterval = setInterval(() => {
         if (gameOver) {
@@ -135,15 +128,13 @@ function dropFood() {
         }
 
         foodPositionY += foodSpeed;
-        foodRotation += foodRotationSpeed * 20; // Actualizar el ángulo de rotación
+        foodRotation += foodRotationSpeed * 20;
         food.style.top = foodPositionY + 'px';
-        food.style.transform = `rotate(${foodRotation}deg)`; // Aplicar la rotación
+        food.style.transform = `rotate(${foodRotation}deg)`;
 
-        // Comprobar si la comida es atrapada por el personaje
         const foodRect = food.getBoundingClientRect();
         const characterRect = character.getBoundingClientRect();
 
-        // Reducir manualmente el área de colisión
         const adjustedFoodRect = {
             top: foodRect.top + collisionPadding,
             bottom: foodRect.bottom - collisionPadding,
@@ -176,7 +167,6 @@ function dropFood() {
             scoreDisplay.textContent = 'Puntuación: ' + score;
         }
 
-        // Comprobar si la comida buena se cayo al piso
         if (foodPositionY >= gameArea.offsetHeight) {
             gameArea.removeChild(food);
             clearInterval(foodInterval);
@@ -192,7 +182,7 @@ function dropFood() {
         }
     }, 20);
 }
-// Aumentar la dificultad
+
 function increaseDifficulty() {
     if (foodDropSpeed < maxFoodDropSpeed) {
         foodDropSpeed += 0.5;
@@ -203,14 +193,14 @@ function increaseDifficulty() {
     badFoodProbability = Math.min(badFoodProbability + badFoodProbabilityIncrease, maxBadFoodProbability);
 }
 
-// Iniciar el juego
+
 function startGame() {
     score = 0;
     missedGood = 0;
     gameOver = false;
-    foodDropSpeed = initialFoodDropSpeed; // Reiniciar la velocidad de caída de la comida
-    badFoodProbability = initialBadFoodProbability; // Reiniciar la probabilidad de comida mala
-    foodGenerationInterval = initialFoodGenerationInterval; // Reiniciar el intervalo de generación de comida
+    foodDropSpeed = initialFoodDropSpeed;
+    badFoodProbability = initialBadFoodProbability;
+    foodGenerationInterval = initialFoodGenerationInterval;
     scoreDisplay.textContent = 'Puntuación: ' + score;
     missedGoodDisplay.textContent = 'Copas perdidas: ' + missedGood;
     gameOverDisplay.style.display = 'none';
@@ -219,7 +209,6 @@ function startGame() {
     difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
 }
 
-// Finalizar el juego
 function endGame() {
     gameOver = true;
     clearInterval(foodIntervalId);
@@ -234,7 +223,6 @@ function endGame() {
     }
 }
 
-// Pausar el juego cuando no esta visible
 document.addEventListener('visibilitychange', () => {
     if (document.hidden) {                   
         clearInterval(foodIntervalId);
@@ -247,17 +235,14 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
-// Reiniciar el juego
 function restartGame() {
     const foods = document.querySelectorAll('.food');
     foods.forEach(food => food.remove());
     startGame();
 }
 
-// Volver al menu
 function backToMenu() {
     window.location.href = '../index.html';
 }
 
-// Iniciar el juego al cargar la página
 startGame();

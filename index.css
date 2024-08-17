@@ -41,13 +41,13 @@ body {
     padding: 0px 10px;
     height: fit-content;
 }
+
 h1 {
     text-align: center;
     color: #ffffff;
     font-size: 2.5rem;
     letter-spacing: 3px;
     font-family: 'VT323', monospace;
-
 }
 
 button {
@@ -61,7 +61,6 @@ button {
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     font-family: 'VT323', monospace;
-
 }
 
 button:hover {
@@ -70,7 +69,7 @@ button:hover {
 
 #infoButton:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7); /* Añade un brillo suave al botón */
+    box-shadow: 0 0 10px rgba(251, 133, 0, 0.7);
 }
 
 .popup {
@@ -144,7 +143,6 @@ button:hover {
         font-size: 1.5rem;
         letter-spacing: 3px;
         font-family: 'VT323', monospace;
-
     }
     
     button {
@@ -158,13 +156,11 @@ button:hover {
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
         font-family: 'VT323', monospace;
-
     }
 }
 
 #infoButton:hover {
     background-color: #fb8500;
-
 }
 
 #infoPopup .popup-content {
