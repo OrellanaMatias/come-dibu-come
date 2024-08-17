@@ -49,8 +49,8 @@ body {
     position: absolute;
     bottom: 10%;
     left: 50%;
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     background-image: url('../assets/dibu.png'); /* Imagen del personaje */
     background-size: cover;
     transform: translateX(-50%);
@@ -83,8 +83,20 @@ body {
 }
 .bad {
     background-image: url('../assets/francia.webp'); /* Imagen de mala comida */
-    height: 50px;
-    width: 50px;
+    height: 46px;
+    width: 46px;
+}
+
+.gameOverContent {
+    text-align: center; /* Centra el contenido dentro del div */
+}
+
+.centeredGif {
+    display: flex;
+    height: 100px;
+    width: 100px;
+    margin: 0 auto; /* Centra el GIF horizontalmente */
+    margin-top: 10px; /* Espacio opcional encima del GIF */
 }
 
 #score, #highScore, #missedGood {
@@ -127,6 +139,7 @@ body {
 }
 
 #gameOver button {
+    margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
     font-family: 'VT323', monospace;

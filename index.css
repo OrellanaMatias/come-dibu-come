@@ -97,6 +97,10 @@ button:hover {
     animation: slideDown 0.5s;
     color: #131313;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .close-btn {
@@ -202,4 +206,28 @@ button:hover {
 
 #infoPopup ul ul li {
     margin: 3px 0;
+}
+
+#scrollContainer {
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#scrollContent {
+    animation: scrollDown 20s linear infinite;
+    list-style-type: none; /* Elimina los puntos de la lista */
+    padding: 0;
+    margin: 0;
+}
+
+@keyframes scrollDown {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
 }

@@ -7,9 +7,9 @@ const gameOverDisplay = document.getElementById('gameOver');
 
 let characterPosition = gameArea.offsetWidth / 2 - 25;
 let characterSpeed = 0;
-const characterMaxSpeed = 5;
-const characterAcceleration = 0.2;
-const characterFriction = 0.9;
+const characterMaxSpeed = 6;
+const characterAcceleration = 0.3;
+const characterFriction = 0.8;
 
 let score = 0;
 let missedGood = 0;
@@ -21,14 +21,14 @@ let difficultyIntervalId;
 let animationFrameId;
 
 // Configuración de dificultad
-const initialFoodDropSpeed = 1; // Velocidad inicial de caída de la comida
-const maxFoodDropSpeed = 10; // Velocidad máxima de caída de la comida
+const initialFoodDropSpeed = 2; // Velocidad inicial de caída de la comida
+const maxFoodDropSpeed = 8; // Velocidad máxima de caída de la comida
 const difficultyIncreaseInterval = 5000; // Intervalo para aumentar la dificultad (5 segundos)
 const initialBadFoodProbability = 0.2; // Probabilidad inicial de comida mala
 const badFoodProbabilityIncrease = 0.05; // Incremento de la probabilidad de comida mala
 const maxBadFoodProbability = 0.5; // Probabilidad máxima de comida mala
 const initialFoodGenerationInterval = 1400; // Intervalo inicial de generación de comida
-const maxFoodGenerationInterval = 400;
+const maxFoodGenerationInterval = 1900;
 
 let foodDropSpeed = initialFoodDropSpeed;
 let badFoodProbability = initialBadFoodProbability;
@@ -120,13 +120,14 @@ function createFood() {
     return food;
 }
 
-// Dejar caer comida
 function dropFood() {
     const food = createFood();
     let foodPositionY = 0;
     let foodSpeed = foodDropSpeed;
     let foodRotation = 0; // Ángulo de rotación inicial
     const foodRotationSpeed = 360 / 1000; // Velocidad de rotación en grados por milisegundo
+    const collisionPadding = 10; // Ajuste del tamaño de la colisión
+
     let foodInterval = setInterval(() => {
         if (gameOver) {
             clearInterval(foodInterval);
@@ -142,11 +143,26 @@ function dropFood() {
         const foodRect = food.getBoundingClientRect();
         const characterRect = character.getBoundingClientRect();
 
+        // Reducir manualmente el área de colisión
+        const adjustedFoodRect = {
+            top: foodRect.top + collisionPadding,
+            bottom: foodRect.bottom - collisionPadding,
+            left: foodRect.left + collisionPadding,
+            right: foodRect.right - collisionPadding,
+        };
+
+        const adjustedCharacterRect = {
+            top: characterRect.top + collisionPadding,
+            bottom: characterRect.bottom - collisionPadding,
+            left: characterRect.left + collisionPadding,
+            right: characterRect.right - collisionPadding,
+        };
+
         if (
-            foodRect.bottom >= characterRect.top &&
-            foodRect.top <= characterRect.bottom &&
-            foodRect.left <= characterRect.right &&
-            foodRect.right >= characterRect.left
+            adjustedFoodRect.bottom >= adjustedCharacterRect.top &&
+            adjustedFoodRect.top <= adjustedCharacterRect.bottom &&
+            adjustedFoodRect.left <= adjustedCharacterRect.right &&
+            adjustedFoodRect.right >= adjustedCharacterRect.left
         ) {
             gameArea.removeChild(food);
             clearInterval(foodInterval);
@@ -176,7 +192,6 @@ function dropFood() {
         }
     }, 20);
 }
-
 // Aumentar la dificultad
 function increaseDifficulty() {
     if (foodDropSpeed < maxFoodDropSpeed) {

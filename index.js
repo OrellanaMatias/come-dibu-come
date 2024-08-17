@@ -17,3 +17,11 @@ function showInfo() {
 function closeInfo() {
     document.getElementById('infoPopup').style.display = 'none';
 }
+
+const scrollContent = document.getElementById('scrollContent');
+scrollContent.addEventListener('mouseover', () => {
+    scrollContent.style.animationPlayState = 'paused';
+});
+scrollContent.addEventListener('mouseout', () => {
+    scrollContent.style.animationPlayState = 'running';
+});
