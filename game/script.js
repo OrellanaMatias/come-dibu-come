@@ -6,6 +6,9 @@ const missedGoodDisplay = document.getElementById('missedGood');
 const gameOverDisplay = document.getElementById('gameOver');
 const missedBadDisplay = document.getElementById('missedBad');
 const pauseMenu = document.getElementById('pauseMenu');
+const goodFoodSound = document.getElementById('goodFoodSound');
+const badFoodSound = document.getElementById('badFoodSound');
+const gameOverSound = document.getElementById('gameOverSound');
 
 let missedBad = 0;
 let characterPosition = gameArea.offsetWidth / 2 - 25;
@@ -164,8 +167,10 @@ function dropFood() {
 
             if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 score += 10;
+                playSound(goodFoodSound);
             } else {
                 missedBad++;
+                playSound(badFoodSound);
                 if (missedBad >= 3) {
                     endGame();
                 }
@@ -181,6 +186,7 @@ function dropFood() {
         }
     }, 20);
 }
+
 function increaseDifficulty() {
     if (foodDropSpeed < maxFoodDropSpeed) {
         foodDropSpeed += 0.5;
@@ -231,6 +237,7 @@ function endGame() {
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
     gameOverDisplay.style.display = 'block';
+    playSound(gameOverSound);
 
     if (score > highScore) {
         highScore = score;
@@ -258,5 +265,11 @@ function resumeGame() {
 function backToMenu() {
     window.location.href = '../index.html';
 }
+
+function playSound(sound) {
+    sound.currentTime = 0; // Reiniciar el sonido
+    sound.play();
+}
+
 
 startGame();
