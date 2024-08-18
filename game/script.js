@@ -106,7 +106,8 @@ function createFood() {
     if (Math.random() > badFoodProbability) {
         food.classList.add('good' + Math.floor(Math.random() * 3 + 1));
     } else {
-        food.classList.add('bad');
+        const badFoodType = Math.random() < 0.5 ? 'bad' : 'bad2';
+        food.classList.add(badFoodType);
     }
 
     food.style.left = Math.random() * (gameArea.offsetWidth - 30) + 'px';
@@ -180,7 +181,6 @@ function dropFood() {
         }
     }, 20);
 }
-
 function increaseDifficulty() {
     if (foodDropSpeed < maxFoodDropSpeed) {
         foodDropSpeed += 0.5;

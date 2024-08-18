@@ -81,10 +81,17 @@ body {
     height: 50px;
     width: 50px;
 }
+
 .bad {
     background-image: url('../assets/francia.webp');
     height: 46px;
     width: 46px;
+}
+
+.bad2 {
+    background-image: url('../assets/mbappe.png'); /* Agrega la URL para la nueva comida mala aquí */
+    height: 40px;
+    width: 40px;
 }
 
 .gameOverContent {
