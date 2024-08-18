@@ -20,7 +20,7 @@ body {
     height: 100vh;
 }
 #startScreen {
-    position: relative; /* Asegura que los elementos posicionados con absolute dentro de #startScreen se alineen respecto a él */
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,14 +45,15 @@ body {
 h1 {
     text-align: center;
     color: #ffffff;
-    font-size: 2.5rem;
-    letter-spacing: 3px;
+    font-size: 3.5rem;
+    letter-spacing: 5px;
     font-family: 'VT323', monospace;
+    margin-bottom: 40px;
 }
 
 button {
-    padding: 10px 20px;
-    margin: 5px 0px;    
+    margin-top: 30px;
+    padding: 10px 20px;    
     font-size: 25px;
     background-color: transparent;
     color: #ffffff;
@@ -104,13 +105,25 @@ button:hover {
 
 .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 24px;
+    top: 15px;
+    right: 15px;
+    font-size: 28px;
     cursor: pointer;
-    color: #ffb703;
-    background: none;
+    color: #ffffff;
+    background-color: #ff2020;
     border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.close-btn:hover {
+    background-color: #ff3b3b;
+    transform: scale(1.1);
 }
 
 @keyframes fadeIn {

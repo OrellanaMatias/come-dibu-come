@@ -89,7 +89,7 @@ body {
 }
 
 .bad2 {
-    background-image: url('../assets/mbappe.png'); /* Agrega la URL para la nueva comida mala aquí */
+    background-image: url('../assets/mbappe.png');
     height: 40px;
     width: 40px;
 }
