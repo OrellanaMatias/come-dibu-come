@@ -262,6 +262,11 @@ function pauseGame() {
     clearInterval(difficultyIntervalId);
 }
 
+function backToMenu() {
+    // Puedes cambiar 'index.html' al nombre del archivo de tu menú principal
+    window.location.href = '../index.html';
+}
+
 function resumeGame() {
     gamePaused = false;
     pauseMenu.style.display = 'none';
@@ -269,7 +274,6 @@ function resumeGame() {
     foodIntervalId = setInterval(dropFood, foodGenerationInterval);
     difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
 
-    // Continúa animando cualquier comida que esté en la pantalla
     const foods = document.querySelectorAll('.food');
     foods.forEach(food => {
         requestAnimationFrame(function animateFood() {
