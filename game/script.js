@@ -65,16 +65,18 @@ let lastTouchX = 0;
 let touchStartX = 0;
 gameArea.addEventListener('touchstart', (event) => {
     if (gameOver || gamePaused) return;
-    lastTouchX = event.touches[0].clientX;
+    touchStartX = event.touches[0].clientX;
 });
-
 
 gameArea.addEventListener('touchmove', (event) => {
     if (gameOver || gamePaused) return;
     const touchX = event.touches[0].clientX;
-    const touchDelta = touchX - lastTouchX;
-    lastTouchX = touchX;
-    characterPosition += touchDelta;
+    const touchDelta = touchX - touchStartX;
+    touchStartX = touchX;
+    
+    // Ajusta la velocidad del movimiento del personaje
+    const movementSpeed = 0.5; // Ajusta esta velocidad según sea necesario
+    characterPosition += touchDelta * movementSpeed;
     characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
     character.style.left = characterPosition + 'px';
 });
