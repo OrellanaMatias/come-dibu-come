@@ -91,7 +91,7 @@ function updateCharacterPosition() {
     }
 
     characterPosition += characterSpeed;
-    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
+    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 0));
     character.style.left = characterPosition + 'px';
 
     animationFrameId = requestAnimationFrame(updateCharacterPosition);
