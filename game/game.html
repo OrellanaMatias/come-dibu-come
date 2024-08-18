@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="gameArea">
@@ -14,7 +15,8 @@
         <div id="character"></div>
         <div id="score">Puntuación: 0</div>
         <div id="highScore">Puntuacion más alta: 0</div>
-        <div id="missedGood">Copas perdidas: 0</div>
+        <div id="missedGood" style="display: none;">a</div>
+        <div id="missedBad">Objetos malos comidos: 0/3</div>
         <div id="gameOver" style="display: none;">
             <div class="gameOverContent">
                 <p>oh-ah oh-ah mami estamos sin luzzzz</p>
@@ -22,9 +24,15 @@
                 <button onclick="restartGame()">Jugar de nuevo</button>
             </div>
         </div>
-        <button id="backToMenuButton" onclick="backToMenu()">Volver al menú</button>
+        <button id="pauseButton" onclick="pauseGame()"><i class="fas fa-pause"></i></button>
+        <div id="pauseMenu" style="display: none;">
+            <div class="pauseMenuContent">
+                <button onclick="resumeGame()">Continuar</button>
+                <button onclick="restartGame()">Reiniciar</button>
+                <button onclick="backToMenu()">Volver al menú</button>
+            </div>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>

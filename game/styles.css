@@ -117,6 +117,16 @@ body {
     top: 70px;
 }
 
+#missedBad {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    font-size: 16px;
+    color: #000000;
+    z-index: 1000;
+}
+
+
 #gameOver {
     position: absolute;
     top: 50%;
@@ -176,4 +186,75 @@ button:hover {
     background-color: #795f44;
     transform: scale(1.1);
     box-shadow: 0 0 10px rgba(251, 133, 0, 0.7);
+}
+
+#pauseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    background-color: #ffcc00;
+    border: 2px solid #ffaa00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#pauseButton i {
+    font-size: 30px;
+    color: #fff;
+}
+
+#pauseButton:hover {
+    background-color: #ffaa00;
+    transform: scale(1.1);
+}
+
+#pauseMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-family: 'VT323', monospace;
+    color: white;
+    text-align: center;
+}
+
+.pauseMenuContent {
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    font-family: 'VT323', monospace;
+}
+
+.pauseMenuContent button {
+    font-size: 24px;
+    padding: 12px 24px;
+    margin: 10px;
+    background-color: #ffcc00;
+    border: none;
+    border-radius: 8px;
+    font-family: 'VT323', monospace;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+
+.pauseMenuContent button:hover {
+    font-family: 'VT323', monospace;
+    background-color: #ffaa00;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
 }

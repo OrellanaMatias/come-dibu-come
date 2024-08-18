@@ -4,7 +4,10 @@ const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('highScore');
 const missedGoodDisplay = document.getElementById('missedGood');
 const gameOverDisplay = document.getElementById('gameOver');
+const missedBadDisplay = document.getElementById('missedBad');
+const pauseMenu = document.getElementById('pauseMenu');
 
+let missedBad = 0;
 let characterPosition = gameArea.offsetWidth / 2 - 25;
 let characterSpeed = 0;
 const characterMaxSpeed = 6;
@@ -14,6 +17,7 @@ const characterFriction = 0.8;
 let score = 0;
 let missedGood = 0;
 let gameOver = false;
+let gamePaused = false;
 let leftPressed = false;
 let rightPressed = false;
 let foodIntervalId;
@@ -39,7 +43,7 @@ highScoreDisplay.textContent = 'Puntuación más alta: ' + highScore;
 character.style.left = characterPosition + 'px';
 
 document.addEventListener('keydown', (event) => {
-    if (gameOver) return;
+    if (gameOver || gamePaused) return;
     if (event.key === 'ArrowLeft') {
         leftPressed = true;
     } else if (event.key === 'ArrowRight') {
@@ -57,12 +61,12 @@ document.addEventListener('keyup', (event) => {
 
 let touchStartX = 0;
 gameArea.addEventListener('touchstart', (event) => {
-    if (gameOver) return;
+    if (gameOver || gamePaused) return;
     touchStartX = event.touches[0].clientX;
 });
 
 gameArea.addEventListener('touchmove', (event) => {
-    if (gameOver) return;
+    if (gameOver || gamePaused) return;
     const touchX = event.touches[0].clientX;
     const touchDelta = touchX - touchStartX;
     touchStartX = touchX;
@@ -76,7 +80,7 @@ gameArea.addEventListener('touchend', () => {
 });
 
 function updateCharacterPosition() {
-    if (gameOver) return;
+    if (gameOver || gamePaused) return;
 
     if (leftPressed) {
         characterSpeed = Math.max(characterSpeed - characterAcceleration, -characterMaxSpeed);
@@ -94,7 +98,6 @@ function updateCharacterPosition() {
 }
 
 updateCharacterPosition();
-
 
 function createFood() {
     const food = document.createElement('div');
@@ -122,7 +125,7 @@ function dropFood() {
     const collisionPadding = 10;
 
     let foodInterval = setInterval(() => {
-        if (gameOver) {
+        if (gameOver || gamePaused) {
             clearInterval(foodInterval);
             return;
         }
@@ -161,24 +164,19 @@ function dropFood() {
             if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 score += 10;
             } else {
-                score -= 5;
+                missedBad++;
+                if (missedBad >= 3) {
+                    endGame();
+                }
             }
 
             scoreDisplay.textContent = 'Puntuación: ' + score;
+            missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
         }
 
         if (foodPositionY >= gameArea.offsetHeight) {
             gameArea.removeChild(food);
             clearInterval(foodInterval);
-
-            if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
-                missedGood++;
-                missedGoodDisplay.textContent = 'Copas perdidas: ' + missedGood;
-
-                if (missedGood >= 8) {
-                    endGame();
-                }
-            }
         }
     }, 20);
 }
@@ -193,28 +191,46 @@ function increaseDifficulty() {
     badFoodProbability = Math.min(badFoodProbability + badFoodProbabilityIncrease, maxBadFoodProbability);
 }
 
-
 function startGame() {
     score = 0;
     missedGood = 0;
     gameOver = false;
+    gamePaused = false;
     foodDropSpeed = initialFoodDropSpeed;
     badFoodProbability = initialBadFoodProbability;
     foodGenerationInterval = initialFoodGenerationInterval;
     scoreDisplay.textContent = 'Puntuación: ' + score;
-    missedGoodDisplay.textContent = 'Copas perdidas: ' + missedGood;
-    gameOverDisplay.style.display = 'none';
+    missedGoodDisplay.textContent = 'Objetos malos comidos: 0/3';
+
+    updateCharacterPosition();
 
     foodIntervalId = setInterval(dropFood, foodGenerationInterval);
     difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
 }
 
-function endGame() {
-    gameOver = true;
+function restartGame() {
+    gameOverDisplay.style.display = 'none';
+
+    cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
+
+    const foods = document.querySelectorAll('.food');
+    foods.forEach(food => gameArea.removeChild(food));
+
+    missedBad = 0;
+    missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
+
+    pauseMenu.style.display = 'none';
+    startGame();
+}
+
+function endGame() {
+    gameOver = true;
     cancelAnimationFrame(animationFrameId);
-    gameOverDisplay.style.display = 'flex';
+    clearInterval(foodIntervalId);
+    clearInterval(difficultyIntervalId);
+    gameOverDisplay.style.display = 'block';
 
     if (score > highScore) {
         highScore = score;
@@ -223,22 +239,20 @@ function endGame() {
     }
 }
 
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {                   
-        clearInterval(foodIntervalId);
-        clearInterval(difficultyIntervalId);
-        cancelAnimationFrame(animationFrameId);
-    } else if (!gameOver) {
-        foodIntervalId = setInterval(dropFood, foodGenerationInterval);
-        difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
-        updateCharacterPosition();
-    }
-});
+function pauseGame() {
+    gamePaused = true;
+    pauseMenu.style.display = 'block';
+    cancelAnimationFrame(animationFrameId);
+    clearInterval(foodIntervalId);
+    clearInterval(difficultyIntervalId);
+}
 
-function restartGame() {
-    const foods = document.querySelectorAll('.food');
-    foods.forEach(food => food.remove());
-    startGame();
+function resumeGame() {
+    gamePaused = false;
+    pauseMenu.style.display = 'none';
+    updateCharacterPosition();
+    foodIntervalId = setInterval(dropFood, foodGenerationInterval);
+    difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
 }
 
 function backToMenu() {
