@@ -61,18 +61,19 @@ document.addEventListener('keyup', (event) => {
         rightPressed = false;
     }
 });
-
+let lastTouchX = 0;
 let touchStartX = 0;
 gameArea.addEventListener('touchstart', (event) => {
     if (gameOver || gamePaused) return;
-    touchStartX = event.touches[0].clientX;
+    lastTouchX = event.touches[0].clientX;
 });
+
 
 gameArea.addEventListener('touchmove', (event) => {
     if (gameOver || gamePaused) return;
     const touchX = event.touches[0].clientX;
-    const touchDelta = touchX - touchStartX;
-    touchStartX = touchX;
+    const touchDelta = touchX - lastTouchX;
+    lastTouchX = touchX;
     characterPosition += touchDelta;
     characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
     character.style.left = characterPosition + 'px';
@@ -80,6 +81,15 @@ gameArea.addEventListener('touchmove', (event) => {
 
 gameArea.addEventListener('touchend', () => {
     characterSpeed = 0;
+});
+
+let mouseX = 0;
+
+gameArea.addEventListener('mousemove', (event) => {
+    if (gameOver || gamePaused) return;
+    mouseX = event.clientX - gameArea.getBoundingClientRect().left;
+    characterPosition = Math.max(0, Math.min(mouseX - 25, gameArea.offsetWidth - 50));
+    character.style.left = characterPosition + 'px';
 });
 
 function updateCharacterPosition() {
