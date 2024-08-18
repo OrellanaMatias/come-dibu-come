@@ -94,7 +94,7 @@ function updateCharacterPosition() {
     }
 
     characterPosition += characterSpeed;
-    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 0));
+    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
     character.style.left = characterPosition + 'px';
 
     animationFrameId = requestAnimationFrame(updateCharacterPosition);
@@ -128,11 +128,8 @@ function dropFood() {
     const foodRotationSpeed = 360 / 1000;
     const collisionPadding = 10;
 
-    let foodInterval = setInterval(() => {
-        if (gameOver || gamePaused) {
-            clearInterval(foodInterval);
-            return;
-        }
+    function animateFood() {
+        if (gameOver || gamePaused) return;
 
         foodPositionY += foodSpeed;
         foodRotation += foodRotationSpeed * 20;
@@ -163,8 +160,6 @@ function dropFood() {
             adjustedFoodRect.right >= adjustedCharacterRect.left
         ) {
             gameArea.removeChild(food);
-            clearInterval(foodInterval);
-
             if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
                 score += 10;
                 playSound(goodFoodSound);
@@ -175,16 +170,19 @@ function dropFood() {
                     endGame();
                 }
             }
-
             scoreDisplay.textContent = 'Puntuación: ' + score;
             missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
         }
 
         if (foodPositionY >= gameArea.offsetHeight) {
             gameArea.removeChild(food);
-            clearInterval(foodInterval);
+            return;  // Sale de la animación al alcanzar el fondo
         }
-    }, 20);
+
+        requestAnimationFrame(animateFood);  // Continúa la animación en el siguiente cuadro
+    }
+
+    animateFood();
 }
 
 function increaseDifficulty() {
@@ -260,16 +258,37 @@ function resumeGame() {
     updateCharacterPosition();
     foodIntervalId = setInterval(dropFood, foodGenerationInterval);
     difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
-}
 
-function backToMenu() {
-    window.location.href = '../index.html';
+    // Continúa animando cualquier comida que esté en la pantalla
+    const foods = document.querySelectorAll('.food');
+    foods.forEach(food => {
+        requestAnimationFrame(function animateFood() {
+            if (gameOver || gamePaused) return;
+
+            let foodPositionY = parseFloat(food.style.top);
+            let foodRotation = parseFloat(food.style.transform.replace('rotate(', '').replace('deg)', ''));
+            let foodSpeed = foodDropSpeed;
+            const foodRotationSpeed = 360 / 1000;
+            const collisionPadding = 10;
+
+            foodPositionY += foodSpeed;
+            foodRotation += foodRotationSpeed * 20;
+            food.style.top = foodPositionY + 'px';
+            food.style.transform = `rotate(${foodRotation}deg)`;
+
+            if (foodPositionY < gameArea.offsetHeight) {
+                requestAnimationFrame(animateFood);
+            } else {
+                gameArea.removeChild(food);
+            }
+        });
+    });
 }
 
 function playSound(sound) {
-    sound.currentTime = 0; // Reiniciar el sonido
+    sound.currentTime = 0;
     sound.play();
 }
 
-
+// Call startGame to begin the game
 startGame();
