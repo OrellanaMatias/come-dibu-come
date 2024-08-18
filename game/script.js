@@ -85,6 +85,12 @@ gameArea.addEventListener('touchend', () => {
     characterSpeed = 0;
 });
 
+function resetTouchControls() {
+    lastTouchX = 0;
+    touchStartX = 0;
+}
+
+
 let mouseX = 0;
 
 gameArea.addEventListener('mousemove', (event) => {
@@ -208,6 +214,7 @@ function increaseDifficulty() {
 }
 
 function startGame() {
+    resetTouchControls();
     score = 0;
     missedGood = 0;
     gameOver = false;
@@ -225,6 +232,7 @@ function startGame() {
 }
 
 function restartGame() {
+    resetTouchControls();
     gameOverDisplay.style.display = 'none';
 
     cancelAnimationFrame(animationFrameId);
@@ -242,6 +250,7 @@ function restartGame() {
 }
 
 function endGame() {
+    resetTouchControls();
     gameOver = true;
     cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
@@ -257,6 +266,7 @@ function endGame() {
 }
 
 function pauseGame() {
+    resetTouchControls();
     gamePaused = true;
     pauseMenu.style.display = 'block';
     cancelAnimationFrame(animationFrameId);
@@ -270,6 +280,7 @@ function backToMenu() {
 }
 
 function resumeGame() {
+    resetTouchControls();
     gamePaused = false;
     pauseMenu.style.display = 'none';
     updateCharacterPosition();
