@@ -74,8 +74,7 @@ gameArea.addEventListener('touchmove', (event) => {
     const touchDelta = touchX - touchStartX;
     touchStartX = touchX;
     
-    // Ajusta la velocidad del movimiento del personaje
-    const movementSpeed = 0.5; // Ajusta esta velocidad según sea necesario
+    const movementSpeed = 0.5;
     characterPosition += touchDelta * movementSpeed;
     characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
     character.style.left = characterPosition + 'px';
@@ -89,16 +88,6 @@ function resetTouchControls() {
     lastTouchX = 0;
     touchStartX = 0;
 }
-
-
-let mouseX = 0;
-
-gameArea.addEventListener('mousemove', (event) => {
-    if (gameOver || gamePaused) return;
-    mouseX = event.clientX - gameArea.getBoundingClientRect().left;
-    characterPosition = Math.max(0, Math.min(mouseX - 25, gameArea.offsetWidth - 50));
-    character.style.left = characterPosition + 'px';
-});
 
 function updateCharacterPosition() {
     if (gameOver || gamePaused) return;
@@ -194,10 +183,10 @@ function dropFood() {
 
         if (foodPositionY >= gameArea.offsetHeight) {
             gameArea.removeChild(food);
-            return;  // Sale de la animación al alcanzar el fondo
+            return;
         }
 
-        requestAnimationFrame(animateFood);  // Continúa la animación en el siguiente cuadro
+        requestAnimationFrame(animateFood);
     }
 
     animateFood();
