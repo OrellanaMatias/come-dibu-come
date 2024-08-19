@@ -15,6 +15,17 @@ body {
     font-family: 'VT323', monospace;
 }
 
+#floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Ajusta esta altura según sea necesario */
+    background-image: url('../assets/suelo.jpg'); /* Ruta a la imagen de pasto */
+    background-size: cover;
+    z-index: 500; /* Debe estar debajo del personaje, pero encima del fondo */
+}
+
 .cosito{
     width: 100vw;
     display: flex;
