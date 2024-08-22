@@ -29,6 +29,7 @@ let animationFrameId;
 
 const initialFoodDropSpeed = 2;
 const difficultyIncreaseInterval = 5000;
+const maxFoodDropSpeed = 8;
 const initialBadFoodProbability = 0.2;
 const badFoodProbabilityIncrease = 0.05;
 const maxBadFoodProbability = 0.5;
