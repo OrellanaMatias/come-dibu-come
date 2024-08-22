@@ -1,3 +1,5 @@
+//
+
 const gameArea = document.getElementById('gameArea');
 const character = document.getElementById('character');
 const scoreDisplay = document.getElementById('score');
