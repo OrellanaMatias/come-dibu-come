@@ -28,8 +28,7 @@ body {
 
 #gameArea {
     position: relative;
-    background-image: url(../assets/Milan\ Stadium.png);
-    background-size: cover;
+    background-color: #D3ECAC;
     display: flex;
     flex-direction: column;
     align-items: center;
