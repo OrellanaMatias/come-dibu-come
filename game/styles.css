@@ -26,20 +26,10 @@ body {
     z-index: 500; /* Debe estar debajo del personaje, pero encima del fondo */
 }
 
-.cosito{
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-}
-
-.cosito img{
-    transform: rotate(90deg);
-    width: 400px;
-}
-
 #gameArea {
     position: relative;
-    background-color: #D3ECAC;
+    background-image: url(../assets/Milan\ Stadium.png);
+    background-size: cover;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,9 +49,9 @@ body {
 
 #character {
     position: absolute;
-    bottom: 10%;
+    bottom: 12%;
     left: 50%;
-    width: 140px;
+    width: 100px;
     height: 140px;
     background-image: url('../assets/dibu.png');
     background-size: cover;
@@ -79,31 +69,32 @@ body {
 
 .good1 {
     background-image: url('../assets/copaAmerica.webp');
-    height: 50px;
+    height: 80px;
+    width: 45px;
 }
 
 .good2 {
     background-image: url('../assets/copaMundial.png');
-    height: 50px;
-    width: 50px;
+    height: 80px;
+    width: 80px;
 }
 
 .good3 {
     background-image: url('../assets/guante.webp');
-    height: 50px;
-    width: 50px;
+    height: 80px;
+    width: 80px;
 }
 
 .bad {
     background-image: url('../assets/francia.webp');
-    height: 46px;
-    width: 46px;
+    height: 70px;
+    width: 70px;
 }
 
 .bad2 {
     background-image: url('../assets/mbappe.png');
-    height: 40px;
-    width: 40px;
+    height: 60px;
+    width: 60px;
 }
 
 .gameOverContent {
