@@ -1,4 +1,4 @@
-//
+// 
 
 const gameArea = document.getElementById('gameArea');
 const character = document.getElementById('character');
@@ -229,6 +229,7 @@ function restartGame() {
     cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
+    characterPosition = gameArea.offsetWidth / 2 - 25;
 
     const foods = document.querySelectorAll('.food');
     foods.forEach(food => gameArea.removeChild(food));
