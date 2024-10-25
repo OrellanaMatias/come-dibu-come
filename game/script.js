@@ -255,7 +255,6 @@ function restartGame() {
     audio.play();
     resetTouchControls();
     gameOverDisplay.style.display = 'none';
-
     cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
@@ -266,7 +265,6 @@ function restartGame() {
 
     missedBad = 0;
     missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
-
     pauseMenu.style.display = 'none';
     startGame();
     intervaloFondo = setInterval(cambiarFondo, 500);
@@ -344,6 +342,21 @@ function playSound(sound) {
     sound.currentTime = 0;
     sound.play();
 }
+
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+        playingOnHide = !audio.paused;
+        audio.pause();
+        clearInterval(foodIntervalId);
+        clearInterval(difficultyIntervalId);
+    } else {
+        if (playingOnHide) {
+            audio.play();
+            foodIntervalId = setInterval(dropFood, foodGenerationInterval);
+            difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
+        }
+    }
+});
 
 document.getElementById("centeredGif").addEventListener("click", function() {
     const sound = document.getElementById("gameOverSound2");
