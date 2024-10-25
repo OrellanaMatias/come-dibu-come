@@ -11,7 +11,7 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #5a5a5a;
+        background-color: #151515;
         font-family: 'VT323', monospace;
     }
 
@@ -20,18 +20,18 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 100px; /* Ajusta esta altura según sea necesario */
-        background-image: url('../assets/suelo.jpg'); /* Ruta a la imagen de pasto */
+        height: 100px;
+        background-image: url('../assets/suelo.jpg');
         background-size: cover;
-        z-index: 500; /* Debe estar debajo del personaje, pero encima del fondo */
+        z-index: 500;
     }
 
     #gameArea {
         position: absolute;
         background-image: url("../assets/background.png");
-        background-position: center; /* Centra la imagen */
-        background-repeat: no-repeat; /* Evita que se repita */
-        background-size: cover; /* Asegura que cubra todo el área */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -103,22 +103,34 @@
         text-align: center;
     }
 
-    .centeredGif {
+    #centeredGif {
         display: flex;
         height: 100px;
         width: 100px;
         margin: 0 auto;
         margin-top: 10px;
+        cursor: pointer;
     }
 
-    #score, #highScore, #missedGood {
+    #centeredGif:hover{
+        transform: scale(1.1);
+    }
+
+    #scoreBar {
+        left: 0;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 10px;
         position: absolute;
+        background-color: rgba(255,183,3, 0.8);
+        z-index: 1000;
+    }
+
+    #score, #highScore, #missedBad {
         top: 10px;
         left: 10px;
-        font-size: 16px;
-        color: #000000;
-        z-index: 1000;
-
+        font-size: 25px;
+        color: #ffffff;
     }
 
     #highScore {
@@ -130,17 +142,17 @@
     }
 
     #missedBad {
-        position: absolute;
         top: 70px;
         left: 10px;
-        font-size: 16px;
-        color: #000000;
+        font-size: 25px;
+        color: #ffffff;
         z-index: 1000;
     }
 
 
     #gameOver {
         position: absolute;
+        width: 10vw;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -206,8 +218,8 @@
         right: 10px;
         width: 60px;
         height: 60px;
-        background-color: #ffcc00;
-        border: 2px solid #ffaa00;
+        background-color: rgba(255, 204, 0, 0.8);
+        border: 2px solid rgba(255, 170, 0, 0.8);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -270,3 +282,6 @@
         transform: scale(1.05);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
     }
+
+    
+    

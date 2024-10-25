@@ -3,15 +3,15 @@
     src: url('../assets/Minecraft.ttf') format('truetype');
 }
 
-html{
-    margin: 0px;
-    padding: 0px;
+html {
+    margin: 0;
+    padding: 0;
     background-color: #5a5a5a;
 }
 
 body {
     font-family: 'VT323', monospace;
-    background-color: #8ecae6;
+    background-color: #151515;
     margin: 0;
     padding: 0;
     display: flex;
@@ -28,8 +28,9 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(assets/background-test.png);
+    background-image: url(assets/background.png);
     background-position: center;
+    background-size: cover;
     width: 600px;
 }
 
@@ -38,10 +39,13 @@ body {
     height: 150px;
     margin-bottom: 20px;
 }
-.atrapado{
-    background-color: #795f44;
+
+.atrapado {
+    background-color: #ffcc00;
+    border: #ffaa00 20px solid;
+    border-radius: 30px;
     padding: 0px 10px;
-    height: fit-content;
+    animation: movimientoTerraria 1s infinite;
 }
 
 h1 {
@@ -54,12 +58,13 @@ h1 {
 }
 
 button {
+    width: 20vw;
     margin-top: 30px;
     padding: 10px 20px;    
-    font-size: 25px;
-    background-color: transparent;
+    font-size: 40px;
+    background-color: #ffaa00;
     color: #ffffff;
-    border: none;
+    border: 5px solid #ffcc00;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
@@ -69,7 +74,6 @@ button {
 button:hover {
     transform: scale(1.1);
 }
-
 
 .popup {
     position: fixed;
@@ -134,6 +138,26 @@ button:hover {
     to { transform: translateY(0); }
 }
 
+.atrapado {
+    background-color: #ffcc00;
+    border: #ffaa00 20px solid;
+    border-radius: 30px;
+    padding: 0px 10px;
+    margin-bottom: 50px;
+    animation: zoomInOut 2s infinite;
+}
+
+@keyframes zoomInOut {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+
+
 #infoButton {
     position: absolute;
     top: 20px;
@@ -174,6 +198,7 @@ button:hover {
         font-size: 16px;
     }
 }
+
 @media screen and (max-width: 767px) {
     h1 {
         text-align: center;
@@ -199,69 +224,4 @@ button:hover {
 
 #infoButton:hover {
     background-color: #fb8500;
-}
-
-#infoPopup .popup-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 500px;
-    width: 80%;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    animation: slideDown 0.5s;
-    color: #023047;
-}
-
-#infoPopup h2 {
-    color: #fb8500;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-#infoPopup p, #infoPopup ul {
-    color: #023047;
-    font-size: 16px;
-    text-align: left;
-}
-
-#infoPopup ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-#infoPopup li {
-    margin: 5px 0;
-}
-
-#infoPopup ul ul {
-    margin-left: 20px;
-}
-
-#infoPopup ul ul li {
-    margin: 3px 0;
-}
-
-#scrollContainer {
-    max-height: 200px;
-    overflow: hidden;
-    position: relative;
-    margin: 0 auto;
-    text-align: center;
-}
-
-#scrollContent {
-    animation: scrollDown 20s linear infinite;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-@keyframes scrollDown {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(-100%);
-    }
 }

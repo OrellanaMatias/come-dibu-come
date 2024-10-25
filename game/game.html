@@ -13,14 +13,15 @@
 <body>
     <div id="gameArea">
         <div id="character"></div>
-        <div id="score">Puntuación: 0</div>
-        <div id="highScore">Puntuacion más alta: 0</div>
-        <div id="missedGood" style="display: none;">a</div>
-        <div id="missedBad">Objetos malos comidos: 0/3</div>
+        <div id="scoreBar">
+            <div id="score">Puntuación: 0</div>
+            <div id="highScore">Puntuacion más alta: 0</div>
+            <div id="missedBad">Objetos malos comidos: 0/3</div>
+        </div>
         <div id="gameOver" style="display: none;">
             <div class="gameOverContent">
-                <p>oh-ah oh-ah mami estamos sin luzzzz</p>
-                <img src="../assets/messi.gif" alt="ANDA PA ALLA BOBO" class="centeredGif">
+                <p>¡Has perdido!</p>
+                <img src="../assets/messi.gif" alt="ANDA PA ALLA BOBO" id="centeredGif">
                 <button onclick="restartGame()">Jugar de nuevo</button>
             </div>
         </div>
@@ -38,6 +39,7 @@
     <audio id="goodFoodSound" src="../assets/take.mp3" preload="auto"></audio>
     <audio id="badFoodSound" src="../assets/lose.mp3" preload="auto"></audio>
     <audio id="gameOverSound" src="../assets/perder.mp3" preload="auto"></audio>
+    <audio id="gameOverSound2" src="../assets/perder2.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>

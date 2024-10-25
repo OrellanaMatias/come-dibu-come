@@ -1,10 +1,17 @@
 // 
+const images = [
+    'url("../assets/background.png")',
+    'url("../assets/background -2.png")'
+];
+
+let currentIndex = 0;
+let intervaloFondo;
 
 const gameArea = document.getElementById('gameArea');
 const character = document.getElementById('character');
 const scoreDisplay = document.getElementById('score');
 const highScoreDisplay = document.getElementById('highScore');
-const missedGoodDisplay = document.getElementById('missedGood');
+const missedGoodDisplay = document.getElementById('missedBad');
 const gameOverDisplay = document.getElementById('gameOver');
 const missedBadDisplay = document.getElementById('missedBad');
 const pauseMenu = document.getElementById('pauseMenu');
@@ -41,6 +48,24 @@ const maxFoodGenerationInterval = 1900;
 let foodDropSpeed = initialFoodDropSpeed;
 let badFoodProbability = initialBadFoodProbability;
 let foodGenerationInterval = initialFoodGenerationInterval;
+
+var audio = new Audio('../assets/ambience.mp3');
+
+audio.addEventListener('ended', () => {
+    audio.currentTime = 0; // Vuelve al inicio
+    audio.play(); // Reproduce de nuevo
+});
+
+    
+function cambiarFondo() {
+    document.getElementById('gameArea').style.backgroundImage = images[currentIndex];
+    currentIndex = (currentIndex + 1) % images.length; 
+}
+
+
+intervaloFondo = setInterval(cambiarFondo, 500);
+
+cambiarFondo();
 
 let highScore = localStorage.getItem('highScore') || 0;
 highScoreDisplay.textContent = 'Puntuación más alta: ' + highScore;
@@ -205,6 +230,8 @@ function increaseDifficulty() {
 }
 
 function startGame() {
+    audio.play();
+    audio.volume = 0.2;
     resetTouchControls();
     score = 0;
     missedGood = 0;
@@ -223,6 +250,9 @@ function startGame() {
 }
 
 function restartGame() {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
     resetTouchControls();
     gameOverDisplay.style.display = 'none';
 
@@ -239,14 +269,17 @@ function restartGame() {
 
     pauseMenu.style.display = 'none';
     startGame();
+    intervaloFondo = setInterval(cambiarFondo, 500);
 }
 
 function endGame() {
+    audio.pause()
     resetTouchControls();
     gameOver = true;
     cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
+    clearInterval(intervaloFondo);
     gameOverDisplay.style.display = 'block';
     playSound(gameOverSound);
 
@@ -258,20 +291,23 @@ function endGame() {
 }
 
 function pauseGame() {
+    audio.pause();
     resetTouchControls();
     gamePaused = true;
     pauseMenu.style.display = 'block';
     cancelAnimationFrame(animationFrameId);
     clearInterval(foodIntervalId);
     clearInterval(difficultyIntervalId);
+    clearInterval(intervaloFondo);
 }
 
 function backToMenu() {
-    // Puedes cambiar 'index.html' al nombre del archivo de tu menú principal
     window.location.href = '../index.html';
 }
 
 function resumeGame() {
+    intervaloFondo = setInterval(cambiarFondo, 500);
+    audio.play();
     resetTouchControls();
     gamePaused = false;
     pauseMenu.style.display = 'none';
@@ -309,5 +345,10 @@ function playSound(sound) {
     sound.play();
 }
 
-// Call startGame to begin the game
+document.getElementById("centeredGif").addEventListener("click", function() {
+    const sound = document.getElementById("gameOverSound2");
+    sound.currentTime = 0; // Reinicia el sonido
+    sound.play(); // Reproduce el sonido
+});
+
 startGame();
