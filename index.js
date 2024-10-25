@@ -1,4 +1,4 @@
-var menuAudio = new Audio('/assets/menu.mp3');
+var menuAudio = new Audio('assets/menu.mp3');
 menuAudio.play();
 
 menuAudio.addEventListener('ended', () => {
