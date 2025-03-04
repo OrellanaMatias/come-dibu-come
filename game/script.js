@@ -185,30 +185,37 @@ class Game {
     animateFood(food) {
         let positionY = 0;
         let rotation = 0;
+        
+        // Store animation data on the food element itself
+        food.animationData = { positionY, rotation };
 
         const animate = () => {
-            if (this.state.gameOver || this.state.gamePaused) return;
-
-            positionY += this.state.foodDropSpeed;
-            rotation += CONFIG.food.rotationSpeed;
+            if (this.state.gameOver) return;
             
-            food.style.top = `${positionY}px`;
-            food.style.transform = `rotate(${rotation}deg)`;
+            // Skip animation when paused but don't terminate
+            if (!this.state.gamePaused) {
+                food.animationData.positionY += this.state.foodDropSpeed;
+                food.animationData.rotation += CONFIG.food.rotationSpeed;
+                
+                food.style.top = `${food.animationData.positionY}px`;
+                food.style.transform = `rotate(${food.animationData.rotation}deg)`;
 
-            if (this.checkCollision(food)) {
-                this.handleCollision(food);
-                return;
+                if (this.checkCollision(food)) {
+                    this.handleCollision(food);
+                    return;
+                }
+
+                if (food.animationData.positionY >= this.gameArea.offsetHeight) {
+                    this.gameArea.removeChild(food);
+                    return;
+                }
             }
-
-            if (positionY >= this.gameArea.offsetHeight) {
-                this.gameArea.removeChild(food);
-                return;
-            }
-
-            requestAnimationFrame(animate);
+            
+            // Store the animation frame ID on the food element
+            food.animationFrameId = requestAnimationFrame(animate);
         };
 
-        requestAnimationFrame(animate);
+        food.animationFrameId = requestAnimationFrame(animate);
     }
 
     checkCollision(food) {
@@ -369,9 +376,11 @@ class Game {
         this.state.gamePaused = false;
         this.audio.background.play();
         this.pauseMenu.style.display = 'none';
-        this.startGame();
+        this.updateCharacterPosition();
+        this.intervals.food = setInterval(() => this.createFood(), this.state.foodGenerationInterval);
+        this.intervals.difficulty = setInterval(() => this.increaseDifficulty(), CONFIG.difficulty.updateInterval);
+        this.intervals.background = setInterval(() => this.updateBackground(), CONFIG.background.changeInterval);
     }
-
     clearAllIntervals() {
         cancelAnimationFrame(this.animationFrame);
         Object.values(this.intervals).forEach(interval => {
