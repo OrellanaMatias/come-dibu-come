@@ -140,12 +140,24 @@ class Game {
     }
     handleVisibilityChange() {
         if (document.hidden) {
-            this.pauseGame();
-        } else if (!this.state.gameOver && !this.state.gamePaused) {
+            this.pauseGame(true); // Pass true to indicate tab visibility change
+        } else if (!this.state.gameOver && this.state.gamePaused) {
             this.resumeGame();
         }
     }
 
+    pauseGame(isVisibilityChange = false) {
+        this.state.gamePaused = true;
+        this.audio.background.pause();
+        this.pauseMenu.style.display = isVisibilityChange ? 'none' : 'block';
+        this.clearAllIntervals();
+        
+        // If paused due to tab visibility change, remove all food elements
+        if (isVisibilityChange) {
+            const foods = document.querySelectorAll('.food');
+            foods.forEach(food => this.gameArea.removeChild(food));
+        }
+    }
     updateCharacterPosition() {
         if (this.state.gameOver || this.state.gamePaused) return;
 
