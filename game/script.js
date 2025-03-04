@@ -186,13 +186,11 @@ class Game {
         let positionY = 0;
         let rotation = 0;
         
-        // Store animation data on the food element itself
         food.animationData = { positionY, rotation };
 
         const animate = () => {
             if (this.state.gameOver) return;
             
-            // Skip animation when paused but don't terminate
             if (!this.state.gamePaused) {
                 food.animationData.positionY += this.state.foodDropSpeed;
                 food.animationData.rotation += CONFIG.food.rotationSpeed;
@@ -211,7 +209,6 @@ class Game {
                 }
             }
             
-            // Store the animation frame ID on the food element
             food.animationFrameId = requestAnimationFrame(animate);
         };
 
