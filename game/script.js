@@ -1,367 +1,399 @@
-// 
-const images = [
-    'url("../assets/background.png")',
-    'url("../assets/background -2.png")'
-];
-
-let currentIndex = 0;
-let intervaloFondo;
-
-const gameArea = document.getElementById('gameArea');
-const character = document.getElementById('character');
-const scoreDisplay = document.getElementById('score');
-const highScoreDisplay = document.getElementById('highScore');
-const missedGoodDisplay = document.getElementById('missedBad');
-const gameOverDisplay = document.getElementById('gameOver');
-const missedBadDisplay = document.getElementById('missedBad');
-const pauseMenu = document.getElementById('pauseMenu');
-const goodFoodSound = document.getElementById('goodFoodSound');
-const badFoodSound = document.getElementById('badFoodSound');
-const gameOverSound = document.getElementById('gameOverSound');
-
-let missedBad = 0;
-let characterPosition = gameArea.offsetWidth / 2 - 25;
-let characterSpeed = 0;
-const characterMaxSpeed = 6;
-const characterAcceleration = 0.3;
-const characterFriction = 0.8;
-
-let score = 0;
-let missedGood = 0;
-let gameOver = false;
-let gamePaused = false;
-let leftPressed = false;
-let rightPressed = false;
-let foodIntervalId;
-let difficultyIntervalId;
-let animationFrameId;
-
-const initialFoodDropSpeed = 2;
-const difficultyIncreaseInterval = 5000;
-const maxFoodDropSpeed = 8;
-const initialBadFoodProbability = 0.2;
-const badFoodProbabilityIncrease = 0.05;
-const maxBadFoodProbability = 0.5;
-const initialFoodGenerationInterval = 1400;
-const maxFoodGenerationInterval = 1900;
-
-let foodDropSpeed = initialFoodDropSpeed;
-let badFoodProbability = initialBadFoodProbability;
-let foodGenerationInterval = initialFoodGenerationInterval;
-
-var audio = new Audio('../assets/ambience.mp3');
-
-audio.addEventListener('ended', () => {
-    audio.currentTime = 0; // Vuelve al inicio
-    audio.play(); // Reproduce de nuevo
-});
-
-    
-function cambiarFondo() {
-    document.getElementById('gameArea').style.backgroundImage = images[currentIndex];
-    currentIndex = (currentIndex + 1) % images.length; 
-}
-
-
-intervaloFondo = setInterval(cambiarFondo, 500);
-
-cambiarFondo();
-
-let highScore = localStorage.getItem('highScore') || 0;
-highScoreDisplay.textContent = 'Puntuación más alta: ' + highScore;
-
-character.style.left = characterPosition + 'px';
-
-document.addEventListener('keydown', (event) => {
-    if (gameOver || gamePaused) return;
-    if (event.key === 'ArrowLeft') {
-        leftPressed = true;
-    } else if (event.key === 'ArrowRight') {
-        rightPressed = true;
+const CONFIG = {
+    character: {
+        maxSpeed: 12,
+        acceleration: 0.8,
+        friction: 0.85,
+        initialPosition: null
+    },
+    food: {
+        initialDropSpeed: 2.5,      
+        maxDropSpeed: 8,             
+        rotationSpeed: 2.5,
+        collisionPadding: 10,
+        initialInterval: 2000,      
+        minInterval: 1200          
+    },
+    difficulty: {
+        updateInterval: 8000,       
+        initialBadProbability: 0.15, 
+        maxBadProbability: 0.4,      
+        badProbabilityIncrease: 0.03 
+    },
+    background: {
+        images: [
+            'url("../assets/background.png")',
+            'url("../assets/background -2.png")'
+        ],
+        changeInterval: 500
     }
-});
+};
 
-document.addEventListener('keyup', (event) => {
-    if (event.key === 'ArrowLeft') {
-        leftPressed = false;
-    } else if (event.key === 'ArrowRight') {
-        rightPressed = false;
-    }
-});
-let lastTouchX = 0;
-let touchStartX = 0;
-gameArea.addEventListener('touchstart', (event) => {
-    if (gameOver || gamePaused) return;
-    touchStartX = event.touches[0].clientX;
-});
-
-gameArea.addEventListener('touchmove', (event) => {
-    if (gameOver || gamePaused) return;
-    const touchX = event.touches[0].clientX;
-    const touchDelta = touchX - touchStartX;
-    touchStartX = touchX;
-    
-    const movementSpeed = 0.5;
-    characterPosition += touchDelta * movementSpeed;
-    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
-    character.style.left = characterPosition + 'px';
-});
-
-gameArea.addEventListener('touchend', () => {
-    characterSpeed = 0;
-});
-
-function resetTouchControls() {
-    lastTouchX = 0;
-    touchStartX = 0;
-}
-
-function updateCharacterPosition() {
-    if (gameOver || gamePaused) return;
-
-    if (leftPressed) {
-        characterSpeed = Math.max(characterSpeed - characterAcceleration, -characterMaxSpeed);
-    } else if (rightPressed) {
-        characterSpeed = Math.min(characterSpeed + characterAcceleration, characterMaxSpeed);
-    } else {
-        characterSpeed *= characterFriction;
+class Game {
+    constructor() {
+        this.initializeElements();
+        this.initializeState();
+        this.setupEventListeners();
+        this.setupAudio();
     }
 
-    characterPosition += characterSpeed;
-    characterPosition = Math.max(0, Math.min(characterPosition, gameArea.offsetWidth - 50));
-    character.style.left = characterPosition + 'px';
-
-    animationFrameId = requestAnimationFrame(updateCharacterPosition);
-}
-
-updateCharacterPosition();
-
-function createFood() {
-    const food = document.createElement('div');
-    food.classList.add('food');
-
-    if (Math.random() > badFoodProbability) {
-        food.classList.add('good' + Math.floor(Math.random() * 3 + 1));
-    } else {
-        const badFoodType = Math.random() < 0.5 ? 'bad' : 'bad2';
-        food.classList.add(badFoodType);
+    initializeElements() {
+        this.gameArea = document.getElementById('gameArea');
+        this.character = document.getElementById('character');
+        this.scoreDisplay = document.getElementById('score');
+        this.highScoreDisplay = document.getElementById('highScore');
+        this.missedBadDisplay = document.getElementById('missedBad');
+        this.gameOverDisplay = document.getElementById('gameOver');
+        this.pauseMenu = document.getElementById('pauseMenu');
+        
+        CONFIG.character.initialPosition = this.gameArea.offsetWidth / 2 - 25;
     }
-
-    food.style.left = Math.random() * (gameArea.offsetWidth - 30) + 'px';
-    food.style.top = '0px';
-
-    gameArea.appendChild(food);
-    return food;
-}
-
-function dropFood() {
-    const food = createFood();
-    let foodPositionY = 0;
-    let foodSpeed = foodDropSpeed;
-    let foodRotation = 0;
-    const foodRotationSpeed = 360 / 1000;
-    const collisionPadding = 10;
-
-    function animateFood() {
-        if (gameOver || gamePaused) return;
-
-        foodPositionY += foodSpeed;
-        foodRotation += foodRotationSpeed * 20;
-        food.style.top = foodPositionY + 'px';
-        food.style.transform = `rotate(${foodRotation}deg)`;
-
-        const foodRect = food.getBoundingClientRect();
-        const characterRect = character.getBoundingClientRect();
-
-        const adjustedFoodRect = {
-            top: foodRect.top + collisionPadding,
-            bottom: foodRect.bottom - collisionPadding,
-            left: foodRect.left + collisionPadding,
-            right: foodRect.right - collisionPadding,
+    initializeState() {
+        const savedHighScore = localStorage.getItem('highScore');
+        this.state = {
+            score: 0,
+            highScore: savedHighScore ? parseInt(savedHighScore) : 0,
+            missedBad: 0,
+            gameOver: false,
+            gamePaused: false,
+            backgroundIndex: 0,
+            foodDropSpeed: CONFIG.food.initialDropSpeed,
+            badFoodProbability: CONFIG.difficulty.initialBadProbability,
+            foodGenerationInterval: CONFIG.food.initialInterval
         };
 
-        const adjustedCharacterRect = {
-            top: characterRect.top + collisionPadding,
-            bottom: characterRect.bottom - collisionPadding,
-            left: characterRect.left + collisionPadding,
-            right: characterRect.right - collisionPadding,
+        this.movement = {
+            position: CONFIG.character.initialPosition,
+            velocity: 0,
+            leftPressed: false,
+            rightPressed: false,
+            touchStartX: 0
         };
 
-        if (
-            adjustedFoodRect.bottom >= adjustedCharacterRect.top &&
-            adjustedFoodRect.top <= adjustedCharacterRect.bottom &&
-            adjustedFoodRect.left <= adjustedCharacterRect.right &&
-            adjustedFoodRect.right >= adjustedCharacterRect.left
-        ) {
-            gameArea.removeChild(food);
-            if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
-                score += 10;
-                playSound(goodFoodSound);
-            } else {
-                missedBad++;
-                playSound(badFoodSound);
-                if (missedBad >= 3) {
-                    endGame();
-                }
-            }
-            scoreDisplay.textContent = 'Puntuación: ' + score;
-            missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
-        }
+        this.intervals = {
+            food: null,
+            difficulty: null,
+            background: null
+        };
 
-        if (foodPositionY >= gameArea.offsetHeight) {
-            gameArea.removeChild(food);
-            return;
-        }
-
-        requestAnimationFrame(animateFood);
+        this.animationFrame = null;
     }
 
-    animateFood();
-}
+    setupAudio() {
+        this.audio = {
+            background: new Audio('../assets/ambience.mp3'),
+            goodFood: document.getElementById('goodFoodSound'),
+            badFood: document.getElementById('badFoodSound'),
+            gameOver: document.getElementById('gameOverSound')
+        };
 
-function increaseDifficulty() {
-    if (foodDropSpeed < maxFoodDropSpeed) {
-        foodDropSpeed += 0.5;
+        this.audio.background.loop = true;
+        this.audio.background.volume = 0.2;
     }
-    if (foodGenerationInterval > maxFoodGenerationInterval) {
-        foodGenerationInterval -= 50;
-    }
-    badFoodProbability = Math.min(badFoodProbability + badFoodProbabilityIncrease, maxBadFoodProbability);
-}
 
-function startGame() {
-    audio.play();
-    audio.volume = 0.2;
-    resetTouchControls();
-    score = 0;
-    missedGood = 0;
-    gameOver = false;
-    gamePaused = false;
-    foodDropSpeed = initialFoodDropSpeed;
-    badFoodProbability = initialBadFoodProbability;
-    foodGenerationInterval = initialFoodGenerationInterval;
-    scoreDisplay.textContent = 'Puntuación: ' + score;
-    missedGoodDisplay.textContent = 'Objetos malos comidos: 0/3';
-
-    updateCharacterPosition();
-
-    foodIntervalId = setInterval(dropFood, foodGenerationInterval);
-    difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
-}
-
-function restartGame() {
-    audio.pause();
-    audio.currentTime = 0;
-    audio.play();
-    resetTouchControls();
-    gameOverDisplay.style.display = 'none';
-    cancelAnimationFrame(animationFrameId);
-    clearInterval(foodIntervalId);
-    clearInterval(difficultyIntervalId);
-    characterPosition = gameArea.offsetWidth / 2 - 25;
-
-    const foods = document.querySelectorAll('.food');
-    foods.forEach(food => gameArea.removeChild(food));
-
-    missedBad = 0;
-    missedBadDisplay.textContent = 'Objetos malos comidos: ' + missedBad + '/3';
-    pauseMenu.style.display = 'none';
-    startGame();
-    intervaloFondo = setInterval(cambiarFondo, 500);
-}
-
-function endGame() {
-    audio.pause()
-    resetTouchControls();
-    gameOver = true;
-    cancelAnimationFrame(animationFrameId);
-    clearInterval(foodIntervalId);
-    clearInterval(difficultyIntervalId);
-    clearInterval(intervaloFondo);
-    gameOverDisplay.style.display = 'block';
-    playSound(gameOverSound);
-
-    if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('highScore', highScore);
-        highScoreDisplay.textContent = 'Puntuación más alta: ' + highScore;
-    }
-}
-
-function pauseGame() {
-    audio.pause();
-    resetTouchControls();
-    gamePaused = true;
-    pauseMenu.style.display = 'block';
-    cancelAnimationFrame(animationFrameId);
-    clearInterval(foodIntervalId);
-    clearInterval(difficultyIntervalId);
-    clearInterval(intervaloFondo);
-}
-
-function backToMenu() {
-    window.location.href = '../index.html';
-}
-
-function resumeGame() {
-    intervaloFondo = setInterval(cambiarFondo, 500);
-    audio.play();
-    resetTouchControls();
-    gamePaused = false;
-    pauseMenu.style.display = 'none';
-    updateCharacterPosition();
-    foodIntervalId = setInterval(dropFood, foodGenerationInterval);
-    difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
-
-    const foods = document.querySelectorAll('.food');
-    foods.forEach(food => {
-        requestAnimationFrame(function animateFood() {
-            if (gameOver || gamePaused) return;
-
-            let foodPositionY = parseFloat(food.style.top);
-            let foodRotation = parseFloat(food.style.transform.replace('rotate(', '').replace('deg)', ''));
-            let foodSpeed = foodDropSpeed;
-            const foodRotationSpeed = 360 / 1000;
-            const collisionPadding = 10;
-
-            foodPositionY += foodSpeed;
-            foodRotation += foodRotationSpeed * 20;
-            food.style.top = foodPositionY + 'px';
-            food.style.transform = `rotate(${foodRotation}deg)`;
-
-            if (foodPositionY < gameArea.offsetHeight) {
-                requestAnimationFrame(animateFood);
-            } else {
-                gameArea.removeChild(food);
-            }
+    setupEventListeners() {
+        document.addEventListener('keydown', this.handleKeyDown.bind(this));
+        document.addEventListener('keyup', this.handleKeyUp.bind(this));
+        this.gameArea.addEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.gameArea.addEventListener('touchmove', this.handleTouchMove.bind(this));
+        this.gameArea.addEventListener('touchend', this.handleTouchEnd.bind(this));
+        this.gameArea.addEventListener('touchcancel', this.handleTouchEnd.bind(this));
+        document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+        document.getElementById('centeredGif').addEventListener('click', () => {
+            const sound = document.getElementById('gameOverSound2');
+            sound.currentTime = 0;
+            sound.play();
         });
-    });
-}
+    }
 
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play();
-}
+    handleKeyDown(event) {
+        if (this.state.gameOver || this.state.gamePaused) return;
+        if (event.key === 'ArrowLeft') this.movement.leftPressed = true;
+        if (event.key === 'ArrowRight') this.movement.rightPressed = true;
+    }
 
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        playingOnHide = !audio.paused;
-        audio.pause();
-        clearInterval(foodIntervalId);
-        clearInterval(difficultyIntervalId);
-    } else {
-        if (playingOnHide) {
-            audio.play();
-            foodIntervalId = setInterval(dropFood, foodGenerationInterval);
-            difficultyIntervalId = setInterval(increaseDifficulty, difficultyIncreaseInterval);
+    handleKeyUp(event) {
+        if (event.key === 'ArrowLeft') this.movement.leftPressed = false;
+        if (event.key === 'ArrowRight') this.movement.rightPressed = false;
+    }
+
+    handleTouchStart(event) {
+        if (this.state.gameOver || this.state.gamePaused) return;
+        this.movement.touchStartX = event.touches[0].clientX;
+    }
+
+    handleTouchMove(event) {
+        if (this.state.gameOver || this.state.gamePaused) return;
+        event.preventDefault();
+        const touchX = event.touches[0].clientX;
+        const touchDelta = touchX - this.movement.touchStartX;
+        this.movement.touchStartX = touchX;
+        
+        const gameAreaRect = this.gameArea.getBoundingClientRect();
+        const relativeX = touchX - gameAreaRect.left;
+        this.movement.position = Math.max(0, Math.min(relativeX - 25, this.gameArea.offsetWidth - 50));
+        this.character.style.left = `${this.movement.position}px`;
+    }
+
+    handleTouchEnd() {
+        if (this.state.gameOver || this.state.gamePaused) return;
+        this.movement.touchStartX = 0;
+    }
+    handleVisibilityChange() {
+        if (document.hidden) {
+            this.pauseGame();
+        } else if (!this.state.gameOver && !this.state.gamePaused) {
+            this.resumeGame();
         }
     }
-});
 
-document.getElementById("centeredGif").addEventListener("click", function() {
-    const sound = document.getElementById("gameOverSound2");
-    sound.currentTime = 0; // Reinicia el sonido
-    sound.play(); // Reproduce el sonido
-});
+    updateCharacterPosition() {
+        if (this.state.gameOver || this.state.gamePaused) return;
 
-startGame();
+        if (this.movement.leftPressed) {
+            this.movement.velocity -= CONFIG.character.acceleration;
+        } else if (this.movement.rightPressed) {
+            this.movement.velocity += CONFIG.character.acceleration;
+        }
+
+        this.movement.velocity *= CONFIG.character.friction;
+        this.movement.velocity = Math.max(Math.min(this.movement.velocity, CONFIG.character.maxSpeed), -CONFIG.character.maxSpeed);
+
+        this.movement.position += this.movement.velocity;
+        this.movement.position = Math.max(0, Math.min(this.movement.position, this.gameArea.offsetWidth - 50));
+        this.character.style.left = `${this.movement.position}px`;
+
+        this.animationFrame = requestAnimationFrame(() => this.updateCharacterPosition());
+    }
+
+    createFood() {
+        const food = document.createElement('div');
+        food.classList.add('food');
+
+        if (Math.random() > this.state.badFoodProbability) {
+            food.classList.add(`good${Math.floor(Math.random() * 3 + 1)}`);
+        } else {
+            food.classList.add(Math.random() < 0.5 ? 'bad' : 'bad2');
+        }
+
+        food.style.left = `${Math.random() * (this.gameArea.offsetWidth - 30)}px`;
+        food.style.top = '0px';
+        this.gameArea.appendChild(food);
+
+        this.animateFood(food);
+    }
+
+    animateFood(food) {
+        let positionY = 0;
+        let rotation = 0;
+
+        const animate = () => {
+            if (this.state.gameOver || this.state.gamePaused) return;
+
+            positionY += this.state.foodDropSpeed;
+            rotation += CONFIG.food.rotationSpeed;
+            
+            food.style.top = `${positionY}px`;
+            food.style.transform = `rotate(${rotation}deg)`;
+
+            if (this.checkCollision(food)) {
+                this.handleCollision(food);
+                return;
+            }
+
+            if (positionY >= this.gameArea.offsetHeight) {
+                this.gameArea.removeChild(food);
+                return;
+            }
+
+            requestAnimationFrame(animate);
+        };
+
+        requestAnimationFrame(animate);
+    }
+
+    checkCollision(food) {
+        const foodRect = food.getBoundingClientRect();
+        const characterRect = this.character.getBoundingClientRect();
+        const padding = CONFIG.food.collisionPadding;
+
+        return !(
+            foodRect.bottom - padding < characterRect.top + padding ||
+            foodRect.top + padding > characterRect.bottom - padding ||
+            foodRect.right - padding < characterRect.left + padding ||
+            foodRect.left + padding > characterRect.right - padding
+        );
+    }
+
+    handleCollision(food) {
+        this.gameArea.removeChild(food);
+        
+        if (food.classList.contains('good1') || food.classList.contains('good2') || food.classList.contains('good3')) {
+            this.state.score += 10;
+            this.playSound(this.audio.goodFood);
+        } else {
+            this.state.missedBad++;
+            this.playSound(this.audio.badFood);
+            if (this.state.missedBad >= 3) {
+                this.endGame();
+                return;
+            }
+        }
+
+        this.updateScore();
+    }
+
+    updateScore() {
+        this.scoreDisplay.textContent = `Puntuación: ${this.state.score}`;
+        this.missedBadDisplay.textContent = `Objetos malos comidos: ${this.state.missedBad}/3`;
+        this.highScoreDisplay.textContent = `Puntuación más alta: ${this.state.highScore}`;
+    }
+
+    increaseDifficulty() {
+        this.state.foodDropSpeed = Math.min(
+            this.state.foodDropSpeed + 0.3,  
+            CONFIG.food.maxDropSpeed
+        );
+        
+        this.state.badFoodProbability = Math.min(
+            this.state.badFoodProbability + CONFIG.difficulty.badProbabilityIncrease,
+            CONFIG.difficulty.maxBadProbability
+        );
+
+        this.state.foodGenerationInterval = Math.max(
+            this.state.foodGenerationInterval - 50,
+            CONFIG.food.minInterval
+        );
+
+        clearInterval(this.intervals.food);
+        this.intervals.food = setInterval(
+            () => this.createFood(), 
+            this.state.foodGenerationInterval
+        );
+    }
+    updateBackground() {
+        const nextImage = CONFIG.background.images[this.state.backgroundIndex];
+        const currentImage = this.gameArea.style.backgroundImage;
+        
+        if (currentImage !== nextImage) {
+            this.gameArea.style.backgroundImage = `${currentImage}, ${nextImage}`;
+            setTimeout(() => {
+                this.gameArea.style.backgroundImage = nextImage;
+            }, 50);
+        }
+        
+        this.state.backgroundIndex = (this.state.backgroundIndex + 1) % CONFIG.background.images.length;
+    }
+
+    increaseDifficulty() {
+        this.state.foodDropSpeed = Math.min(
+            this.state.foodDropSpeed + 0.3,
+            CONFIG.food.maxDropSpeed
+        );
+        
+        this.state.badFoodProbability = Math.min(
+            this.state.badFoodProbability + CONFIG.difficulty.badProbabilityIncrease,
+            CONFIG.difficulty.maxBadProbability
+        );
+
+        const newInterval = Math.max(
+            this.state.foodGenerationInterval - 50,
+            CONFIG.food.minInterval
+        );
+        
+        if (newInterval !== this.state.foodGenerationInterval) {
+            this.state.foodGenerationInterval = newInterval;
+            const existingInterval = this.intervals.food;
+            this.intervals.food = setInterval(() => this.createFood(), newInterval);
+            setTimeout(() => clearInterval(existingInterval), newInterval);
+        }
+    }
+    startGame() {
+        this.resetGame();
+        this.audio.background.play();
+        this.updateCharacterPosition();
+        
+        this.intervals.food = setInterval(() => this.createFood(), this.state.foodGenerationInterval);
+        this.intervals.difficulty = setInterval(() => this.increaseDifficulty(), CONFIG.difficulty.updateInterval);
+        this.intervals.background = setInterval(() => this.updateBackground(), CONFIG.background.changeInterval);
+    }
+
+    resetGame() {
+        const currentHighScore = this.state.highScore;
+        
+        this.state.score = 0;
+        this.state.missedBad = 0;
+        this.state.gameOver = false;
+        this.state.gamePaused = false;
+        this.state.foodDropSpeed = CONFIG.food.initialDropSpeed;
+        this.state.badFoodProbability = CONFIG.difficulty.initialBadProbability;
+        
+        this.movement = {
+            position: CONFIG.character.initialPosition,
+            velocity: 0,
+            leftPressed: false,
+            rightPressed: false,
+            touchStartX: 0
+        };
+
+        this.state.highScore = currentHighScore;
+        
+        this.updateScore();
+        this.gameOverDisplay.style.display = 'none';
+        this.pauseMenu.style.display = 'none';
+        
+        const foods = document.querySelectorAll('.food');
+        foods.forEach(food => this.gameArea.removeChild(food));
+    }
+
+    endGame() {
+        this.state.gameOver = true;
+        this.audio.background.pause();
+        this.clearAllIntervals();
+        this.gameOverDisplay.style.display = 'flex';
+        this.playSound(this.audio.gameOver);
+
+        if (this.state.score > this.state.highScore) {
+            this.state.highScore = this.state.score;
+            localStorage.setItem('highScore', this.state.highScore);
+            this.highScoreDisplay.textContent = `Puntuación más alta: ${this.state.highScore}`;
+        }
+    }
+    pauseGame() {
+        this.state.gamePaused = true;
+        this.audio.background.pause();
+        this.pauseMenu.style.display = 'block';
+        this.clearAllIntervals();
+    }
+
+    resumeGame() {
+        this.state.gamePaused = false;
+        this.audio.background.play();
+        this.pauseMenu.style.display = 'none';
+        this.startGame();
+    }
+
+    clearAllIntervals() {
+        cancelAnimationFrame(this.animationFrame);
+        Object.values(this.intervals).forEach(interval => {
+            if (interval) clearInterval(interval);
+        });
+    }
+
+    playSound(sound) {
+        sound.currentTime = 0;
+        sound.play();
+    }
+
+    backToMenu() {
+        window.location.href = '../index.html';
+    }
+}
+
+const game = new Game();
+game.startGame();
+
+window.startGame = () => game.startGame();
+window.restartGame = () => game.startGame();
+window.pauseGame = () => game.pauseGame();
+window.resumeGame = () => game.resumeGame();
+window.backToMenu = () => game.backToMenu();
